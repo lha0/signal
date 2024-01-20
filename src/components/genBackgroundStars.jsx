@@ -1,0 +1,18 @@
+import { useThree } from "@react-three/fiber";
+import { getRandomFloat, getRandomInt } from "../utils/random";
+import * as THREE from "three";
+import Star from "./Star";
+
+export function genBackgroundStars() {
+    const stars = [];
+    for (let i = 0; i < 500; i++) {
+        const size = getRandomInt(15, 20);
+        const pos = new THREE.Vector3(
+            getRandomInt(-1000, 1000),
+            getRandomInt(-1000, 1000),
+            getRandomInt(-1000, 1000)
+        );
+        stars.push(<Star position={pos} size={size} />);
+    }
+    return stars;
+}
