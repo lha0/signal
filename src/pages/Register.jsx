@@ -1,6 +1,86 @@
 // Register.js
 import React, { useState } from "react";
 import { registerService } from "../services/RegisterService";
+import styled from "styled-components";
+
+const Container = styled.div`
+    width: 100vw;
+    height: 100vh;
+    position: absolute; // 절대 위치 지정
+    top: 0; // 상단에서 0px
+    left: 0; // 왼쪽에서 0px
+    display: flex; // Flexbox를 사용해 내부 요소 정렬
+    justify-content: center; // 수평 중앙 정렬 (은하수를 중앙에 배치)
+    align-items: center; // 수직 중앙 정렬 (은하수를 중앙에 배치)
+    z-index: 99; // 캔버스 바로 위에 위치하도록 z-index 설정
+    font-family: "Skyer";
+`;
+
+const Title = styled.h1`
+    position: absolute; // 절대 위치 지정
+    top: 80px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 120px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+const IDTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 350px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const ID = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 500px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const PWTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 550px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+const PW = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 700px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white; // 배경색 투명
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+const ToRegisterBtn = styled.button`
+    position: absolute; // 절대 위치 지정
+    top: 900px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    border: none;
+    color: white; // 글씨 색상
+    background-color: transparent; // 배경색 투명
+    font-size: 60px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
 
 const Register = () => {
     const [id, setId] = useState("");
@@ -28,30 +108,28 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="id">ID:</label>
-                    <input
-                        type="text"
-                        id="id"
-                        value={id}
-                        onChange={handleIdChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="pw">Password:</label>
-                    <input
-                        type="password"
-                        id="pw"
-                        value={pw}
-                        onChange={handlePwChange}
-                    />
-                </div>
-                <button type="submit">Register</button>
-            </form>
-        </div>
+        <>
+            <Container>
+                <Title>SIGNAL</Title>
+                <IDTitle>ID</IDTitle>
+                <ID
+                    type="text"
+                    value={id}
+                    placeholder="ID"
+                    onChange={handleIdChange}
+                />
+                <PWTitle>PW</PWTitle>
+                <PW
+                    type="password"
+                    value={pw}
+                    placeholder="PW"
+                    onChange={handlePwChange}
+                />
+                <ToRegisterBtn type="submit" onClick={handleSubmit}>
+                    Register
+                </ToRegisterBtn>
+            </Container>
+        </>
     );
 };
 

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { getRandomInt } from "../utils/random";
 import * as THREE from "three";
 

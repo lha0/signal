@@ -1,5 +1,4 @@
-import { useThree } from "@react-three/fiber";
-import { getRandomFloat, getRandomInt } from "../utils/random";
+import { getRandomInt } from "../utils/random";
 import * as THREE from "three";
 import Star from "./Star";
 

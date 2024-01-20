@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { CameraControls } from "./CameraControls";
 import { Stars } from "./Stars";
 import { genBackgroundStars } from "./genBackgroundStars";
-import Galaxy from "./Galaxy";
 
 export default function View() {
     const [position, setPosition] = useState({ x: -30, y: 30, z: -30 });
@@ -41,7 +40,7 @@ export default function View() {
                 <axesHelper args={[100, 100, 100]} />
                 <ambientLight intensity={1} />
                 <CameraControls position={position} target={target} />
-                {Galaxy()}
+                {genBackgroundStars()}
                 <group rotation-y={-Math.PI / 2}>
                     <Stars
                         locate={[0, 0, 0]}
