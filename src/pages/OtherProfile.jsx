@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { CameraControls } from "../components/CameraControls";
 import { Stars } from "../components/Stars";
 import Galaxy from "../components/Galaxy";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Profile from "../components/common/Profile";
 import styled from "styled-components";
 import Search from "../components/common/Search";
@@ -68,10 +68,13 @@ const ProfileContainer = styled.div`
     };
 */
 
-export default function MyProfile() {
+export default function OtherProfile() {
     const location = useLocation();
     const navigate = useNavigate();
+    const params = useParams();
+
     const userInfo = { ...location.state.user };
+    console.log("userinfo", userInfo);
     const user_x = userInfo.x_coordinate;
     const user_y = userInfo.y_coordinate;
     const user_z = userInfo.z_coordinate;

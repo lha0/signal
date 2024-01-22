@@ -9,6 +9,8 @@ import { Canvas } from "@react-three/fiber";
 import { genBackgroundStars } from "./components/genBackgroundStars";
 import Galaxy from "./components/Galaxy";
 import MyProfile from "./pages/MyProfile";
+import AllConnection from "./pages/AllConnection";
+import OtherProfile from "./pages/OtherProfile";
 
 function App() {
     return (
@@ -18,18 +20,19 @@ function App() {
                 <Route path="/signin" Component={Login} />
                 <Route path="/signup" Component={Register} />
                 <Route path="/myprofile" Component={MyProfile} />
+                <Route path="/otherprofile/:id" Component={OtherProfile} />
+                <Route path="/allconnection" Component={AllConnection} />
             </Routes>
             <Canvas
                 style={{ height: "100vh" }}
                 camera={{
-                    position: [300, 6000, 12000],
+                    position: [1000, 11000, 18000],
                     rotation: [-0.5, 0, 0],
                     far: 100000,
                 }}
             >
                 <color attach="background" args={["#000"]} />
                 <ambientLight color={"#fff"} intensity={3} />
-                {genBackgroundStars()}
                 {Galaxy()}
             </Canvas>
         </>

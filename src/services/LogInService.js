@@ -7,7 +7,7 @@ export const logInFunction = async (id, pw) => {
             password: pw,
         });
         if (response.status === 200) {
-            console.log("로그인 성공");
+            console.log("로그인 성공", response);
             return response.data;
         } else {
             return "로그인 실패";
