@@ -5,7 +5,7 @@ import gsap from "gsap";
 
 const CameraControls = ({ position, target }) => {
     const { camera } = useThree();
-    const ref = useRef(null);
+    const ref = useRef();
 
     function cameraAnimate() {
         if (ref.current) {
@@ -31,7 +31,7 @@ const CameraControls = ({ position, target }) => {
 
     useEffect(() => {
         cameraAnimate();
-    }, [target, position]);
+    }, [position, target]);
 
     return <OrbitControls ref={ref} />;
 };

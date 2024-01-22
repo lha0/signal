@@ -31,7 +31,7 @@ export default function Galaxy() {
         ARM_Z_MEAN: 900,
         ARM_Z_DIST: 1000,
         GALAXY_THICKNESS: 300,
-        NUM_STARS: 5000,
+        NUM_STARS: 1000,
         STAR_MIN_SIZE: 5,
         STAR_MAX_SIZE: 15,
         ARMS: 2,

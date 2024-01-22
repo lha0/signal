@@ -14,12 +14,14 @@ export function Stars(props) {
     const group = useRef();
     const { nodes, materials, animations } = useGLTF("/models/star/scene.gltf");
     const { actions } = useAnimations(animations, group);
+
+    console.log(props.locate);
     return (
         <group ref={group} {...props} dispose={null}>
             <group name="Sketchfab_Scene">
                 <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
                     <group name="Root">
-                        <group name="star" position={props.locate} scale={100}>
+                        <group name="star" position={props.locate} scale={300}>
                             <mesh
                                 name="star_0"
                                 geometry={nodes.star_0.geometry}

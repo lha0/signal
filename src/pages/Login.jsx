@@ -112,16 +112,15 @@ export default function Login() {
     };
 
     const handleSubmit = async (e) => {
-        console.log("clicked");
         const result = await logInFunction(Id, Pw);
-        if (result) {
-            dispatch(loginSuccess(result));
-        }
 
         if (result && result !== "로그인 실패" && result !== "요청 실패") {
-            console.log("로그인 성공, 받은 토큰:", result);
-            sessionStorage.setItem("jwtToken", result.accessToken); // JWT 토큰을 세션에 저장
+            console.log("로그인 성공 :", result);
+            localStorage.setItem("jwtToken", result.token.accessToken); // JWT 토큰을 세션에 저장
             // 로그인 성공 후 필요한 로직 구현 (예: 페이지 리디렉션)
+            dispatch(loginSuccess(result));
+            navigate("/myprofile", { state: { user: result.user } });
+            localStorage.setItem("loggedInUser", JSON.stringify(result.user));
         } else {
             console.error(result);
         }
@@ -151,7 +150,6 @@ export default function Login() {
                 />
                 <LogInButton onClick={handleSubmit}>Log In</LogInButton>
                 <ToRegisterBtn onClick={handleRegister}>Register</ToRegisterBtn>
-                <div>{sessionStorage.getItem("jwtToken")}</div>
             </Container>
         </>
     );

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { registerService } from "../services/RegisterService";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
     width: 100vw;
@@ -26,7 +27,7 @@ const Title = styled.h1`
 `;
 const IDTitle = styled.h2`
     position: absolute; // 절대 위치 지정
-    top: 350px; // 상단에서 20px
+    top: 320px; // 상단에서 20px
     left: 50px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
@@ -35,7 +36,7 @@ const IDTitle = styled.h2`
 
 const ID = styled.input`
     position: absolute; // 절대 위치 지정
-    top: 500px; // 상단에서 20px
+    top: 450px; // 상단에서 20px
     left: 50px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
@@ -50,7 +51,7 @@ const ID = styled.input`
 
 const PWTitle = styled.h2`
     position: absolute; // 절대 위치 지정
-    top: 550px; // 상단에서 20px
+    top: 520px; // 상단에서 20px
     left: 50px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
@@ -58,7 +59,7 @@ const PWTitle = styled.h2`
 `;
 const PW = styled.input`
     position: absolute; // 절대 위치 지정
-    top: 700px; // 상단에서 20px
+    top: 650px; // 상단에서 20px
     left: 50px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
@@ -70,11 +71,157 @@ const PW = styled.input`
     font-family: "Skyer";
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
 `;
+
+const NameTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 720px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const Name = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 850px; // 상단에서 20px
+    left: 50px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const GenderTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 320px; // 상단에서 20px
+    left: 500px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const Gender = styled.select`
+    position: absolute; // 절대 위치 지정
+    top: 450px; // 상단에서 20px
+    left: 500px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const BirthTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 520px; // 상단에서 20px
+    left: 500px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const Birth = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 650px; // 상단에서 20px
+    left: 500px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const RegionTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 720px; // 상단에서 20px
+    left: 500px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const Region = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 850px; // 상단에서 20px
+    left: 500px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const PhotoTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 320px; // 상단에서 20px
+    left: 950px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const Photo = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 450px; // 상단에서 20px
+    left: 950px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const IntroTitle = styled.h2`
+    position: absolute; // 절대 위치 지정
+    top: 520px; // 상단에서 20px
+    left: 950px; // 왼쪽에서 20px
+    color: white; // 글씨 색상
+    font-size: 60px;
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
+const Intro = styled.input`
+    position: absolute; // 절대 위치 지정
+    top: 650px; // 상단에서 20px
+    left: 950px; // 왼쪽에서 20px
+    width: 350px;
+    height: 60px;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black; // 글씨 색상
+    background-color: white;
+    font-size: 40px;
+    font-family: "Skyer";
+    z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
+`;
+
 const ToRegisterBtn = styled.button`
     position: absolute; // 절대 위치 지정
-    top: 900px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
-    border: none;
+    top: 800px; // 상단에서 20px
+    left: 970px; // 왼쪽에서 20px
+    border: 2px solid white;
+    padding: 20px;
     color: white; // 글씨 색상
     background-color: transparent; // 배경색 투명
     font-size: 60px;
@@ -83,8 +230,15 @@ const ToRegisterBtn = styled.button`
 `;
 
 const Register = () => {
+    const navigate = useNavigate();
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [birth, setBirth] = useState("");
+    const [region, setRegion] = useState("");
+    const [photo, setPhoto] = useState("");
+    const [intro, setIntro] = useState("");
 
     const handleIdChange = (event) => {
         setId(event.target.value);
@@ -94,13 +248,47 @@ const Register = () => {
         setPw(event.target.value);
     };
 
+    const handleNameChange = (event) => {
+        setName(event.target.value);
+    };
+
+    const handleGenderChange = (event) => {
+        setGender(event.target.value); // 성별 상태 업데이트
+    };
+
+    const handleBirthChange = (event) => {
+        setBirth(event.target.value);
+    };
+
+    const handleRegionChange = (event) => {
+        setRegion(event.target.value);
+    };
+
+    const handlePhotoChange = (event) => {
+        setPhoto(event.target.value);
+    };
+
+    const handleIntroChange = (event) => {
+        setIntro(event.target.value);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const result = await registerService(id, pw);
+        const result = await registerService(
+            id,
+            pw,
+            name,
+            gender,
+            birth,
+            region,
+            photo,
+            intro
+        );
 
         if (result === "회원가입 성공") {
             console.log(result);
+            navigate("/signin");
             // 회원가입 성공 후 필요한 로직 구현 (예: 로그인 페이지로 이동)
         } else {
             console.error(result);
@@ -125,8 +313,56 @@ const Register = () => {
                     placeholder="PW"
                     onChange={handlePwChange}
                 />
+                <NameTitle>NAME</NameTitle>
+                <Name
+                    type="text"
+                    value={name}
+                    placeholder="NAME"
+                    onChange={handleNameChange}
+                />
+
+                <GenderTitle value={gender} onChange={handleGenderChange}>
+                    Gender
+                </GenderTitle>
+                <Gender>
+                    <option value="man">Man</option>
+                    <option value="woman">Woman</option>
+                </Gender>
+
+                <BirthTitle>BIRTH</BirthTitle>
+                <Birth
+                    type="text"
+                    value={birth}
+                    placeholder="BIRTH"
+                    onChange={handleBirthChange}
+                />
+
+                <RegionTitle>REGION</RegionTitle>
+                <Region
+                    type="text"
+                    value={region}
+                    placeholder="REGION"
+                    onChange={handleRegionChange}
+                />
+
+                <PhotoTitle>PHOTO</PhotoTitle>
+                <Photo
+                    type="text"
+                    value={photo}
+                    placeholder="PHOTO"
+                    onChange={handlePhotoChange}
+                />
+
+                <IntroTitle>INTRO</IntroTitle>
+                <Intro
+                    type="text"
+                    value={intro}
+                    placeholder="INTRO"
+                    onChange={handleIntroChange}
+                />
+
                 <ToRegisterBtn type="submit" onClick={handleSubmit}>
-                    Register
+                    REGISTER
                 </ToRegisterBtn>
             </Container>
         </>

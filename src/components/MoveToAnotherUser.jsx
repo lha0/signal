@@ -83,7 +83,7 @@ export default function View() {
                 <axesHelper args={[1000, 1000, 1000]} />
                 <ambientLight intensity={1} />
                 <CameraControls position={position} target={target} />
-                {Galaxy()}
+                {/* Galaxy()*/}
                 <group rotation-y={-Math.PI / 2}>
                     <Stars
                         locate={[

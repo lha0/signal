@@ -8,6 +8,7 @@ import View from "./components/View";
 import { Canvas } from "@react-three/fiber";
 import { genBackgroundStars } from "./components/genBackgroundStars";
 import Galaxy from "./components/Galaxy";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
     return (
@@ -16,7 +17,7 @@ function App() {
                 <Route path="/" Component={Home} />
                 <Route path="/signin" Component={Login} />
                 <Route path="/signup" Component={Register} />
-                <Route path="/view" Component={View} />
+                <Route path="/myprofile" Component={MyProfile} />
             </Routes>
             <Canvas
                 style={{ height: "100vh" }}

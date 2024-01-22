@@ -1,10 +1,25 @@
 import axios from "axios";
 
-export const registerService = async (id, password) => {
+export const registerService = async (
+    id,
+    password,
+    name,
+    gender,
+    birth,
+    region,
+    photo,
+    introduction
+) => {
     try {
         const response = await axios.post(`/register`, {
             id: id,
             password: password,
+            name: name,
+            gender: gender,
+            birth: birth,
+            region: region,
+            photo: photo,
+            introduction: introduction,
         });
         if (response.status === 200) {
             // 성공 메시지 반환
