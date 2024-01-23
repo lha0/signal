@@ -11,7 +11,7 @@ export function genBackgroundStars() {
             getRandomInt(-1000, 1000),
             getRandomInt(-1000, 1000)
         );
-        stars.push(<Star position={pos} size={size} />);
+        stars.push(<Star position={pos} size={size} isRotate={true} />);
     }
     return stars;
 }

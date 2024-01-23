@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Profile from "../components/common/Profile";
 import styled from "styled-components";
 import Search from "../components/common/Search";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 const SearchContainer = styled.div`
     position: absolute;
@@ -51,16 +52,16 @@ const ProfileContainer = styled.div`
 
 /*
 {
-        birth: null,
-        color: null,
-        gender: null,
-        id: "test8",
-        introduction: null,
-        name: null,
+        birth: "2023-01-22",
+        color: "white",
+        gender: "man",
+        id: "test1",
+        introduction: "hello",
+        name: "test1",
         password:
             "{bcrypt}$2a$10$9qLQ1N2HC8Yc6BTNTqgJz.pl2whLOr.poXprAmEpXyqYt.UsRsLJO",
-        photo: null,
-        region: null,
+        photo: "null",
+        region: "seoul",
         signals: 11,
         x_coordinate: 751.136,
         y_coordinate: 456.182,
@@ -71,7 +72,23 @@ const ProfileContainer = styled.div`
 export default function MyProfile() {
     const location = useLocation();
     const navigate = useNavigate();
-    const userInfo = { ...location.state.user };
+    const userInfo = {
+        birth: "2023-01-22",
+        color: "white",
+        gender: "man",
+        id: "test1",
+        introduction: "hello",
+        name: "test1",
+        password:
+            "{bcrypt}$2a$10$9qLQ1N2HC8Yc6BTNTqgJz.pl2whLOr.poXprAmEpXyqYt.UsRsLJO",
+        photo: "null",
+        region: "seoul",
+        signals: 11,
+        x_coordinate: 751.136,
+        y_coordinate: 456.182,
+        z_coordinate: 392.797,
+    };
+    //const userInfo = { ...location.state.user };
     const user_x = userInfo.x_coordinate;
     const user_y = userInfo.y_coordinate;
     const user_z = userInfo.z_coordinate;
@@ -112,16 +129,30 @@ export default function MyProfile() {
             </SearchContainer>
             <Container>
                 <Canvas
-                    style={{ width: "100%", height: "100%" }}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                        zIndex: "99",
+                    }}
                     camera={{
                         position: [10000, 10000, 10000],
                         rotation: [0.5, 0, 0],
-                        far: 1000,
+                        far: 20000,
                     }}
                 >
+                    <EffectComposer>
+                        <Bloom
+                            intensity={5}
+                            mipmapBlur={true}
+                            luminanceThreshold={0.1}
+                            luminanceSmoothing={4}
+                        />
+                    </EffectComposer>
+
                     <color attach="background" args={["#000"]} />
                     <axesHelper args={[1000, 1000, 1000]} />
-                    <ambientLight intensity={1} />
+                    <ambientLight intensity={4} />
                     <CameraControls position={position} target={target} />
                     {Galaxy()}
 
