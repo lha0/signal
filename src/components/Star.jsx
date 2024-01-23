@@ -4,7 +4,7 @@ import { getRandomInt } from "../utils/random";
 import * as THREE from "three";
 
 export default function Star({ position, size, isRotate }) {
-    const COLOR = ["#88beff", "ffff00", "#f9d397", "#fd6b6b", "#ffffac"];
+    const COLOR = ["#88beff", "white", "#f9d397", "#fd6b6b", "#ffffac"];
     const colorIndex = getRandomInt(0, COLOR.length);
     const meshRef = useRef();
     const Y_AXIS = new THREE.Vector3(0, 1, 0);

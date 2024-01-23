@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IoMdCloseCircle, IoIosSend } from "react-icons/io";
 import { HiMiniSignal, HiMiniSignalSlash } from "react-icons/hi2";
+import SendSignal from "../SendSignal";
+import DeleteSignal from "../DeleteSignal";
+import { receivedSignalFunction } from "../../services/ReceivedSignalService";
 
 const Container = styled.div`
     width: 100%;
@@ -27,7 +30,7 @@ const PhotoNameContainer = styled.div`
     justify-content: center;
 
     font-family: "Skyer";
-    color: white;
+    color: black;
 `;
 
 const UserPhotoView = styled.img`
@@ -59,9 +62,9 @@ const UserInfoSection = styled.div`
     flex-wrap: wrap;
 
     font-family: "Skyer";
-    color: white;
+    color: black;
 
-    z-index: 100; // Ensure it's on top of the canvas
+    z-index: 110; // Ensure it's on top of the canvas
 `;
 
 const UserBirthBox = styled.div`
@@ -197,25 +200,52 @@ const IconBox = styled.div`
 `;
 const CloseBtn = styled(IoMdCloseCircle)`
     font-size: 70px;
-    color: white;
+    color: black;
 `;
 const ChatBtn = styled(IoIosSend)`
     font-size: 70px;
-    color: white;
+    color: lightgreen;
     margin-left: 50px;
     margin-right: 50px;
 `;
 const SignalBtn = styled(HiMiniSignal)`
     font-size: 70px;
-    color: white;
+    color: skyblue;
 `;
 const SignalCancelBtn = styled(HiMiniSignalSlash)`
-    ont-size: 70px;
-    color: white;
+    font-size: 70px;
+    color: lightpink;
+`;
+
+const SignalPopup = styled.div`
+    position: absolute;
+    width: 50%; // or any other size
+    height: 30%; // or any other size
+    background-color: rgba(255, 255, 255); // Semi-transparent white
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: ${(props) => (props.isopen ? "block" : "none")};
+    overflow: auto; // If content is too big, scroll
+    top: 35%; // Adjust as needed
+    left: 25%; // Adjust as needed
+    z-index: 120;
+`;
+
+const DeleteSignalPopup = styled.div`
+    position: absolute;
+    width: 50%; // or any other size
+    height: 30%; // or any other size
+    background-color: rgba(255, 255, 255); // Semi-transparent white
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: ${(props) => (props.isdelopen ? "block" : "none")};
+    overflow: auto; // If content is too big, scroll
+    top: 35%; // Adjust as needed
+    left: 25%; // Adjust as needed
+    z-index: 120;
 `;
 
 const Profile = ({ userInfo, onClose }) => {
-    console.log(userInfo);
     const userName = userInfo.name || "NAME";
     const userBirth = userInfo.birth.slice(0, 10) || "BIRTHDAY";
     const userGender = userInfo.gender || "GENDER";
@@ -223,6 +253,56 @@ const Profile = ({ userInfo, onClose }) => {
     const userRegion = userInfo.region || "REGION";
     const userSignals = userInfo.signals || "SIGNALS";
     const userPhoto = userInfo.photo || "path/to/default/photo.png"; // Default photo path or logic to handle
+    const userID = userInfo.id || "ID";
+
+    const [isPopOpen, setIsPopOpen] = useState(false);
+    const [isSignalSent, setIsSignalSent] = useState(false);
+    const [isDelSigPopOpen, setIsDelSigPopOpen] = useState(false);
+    const [receivedSignal, setReceivedSignal] = useState([]);
+    const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await receivedSignalFunction(userID);
+
+            if (result && result !== "get 실패" && result !== "요청 실패") {
+                setReceivedSignal(result);
+                console.log("received signals", result);
+            } else {
+                console.error(result);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        receivedSignal.forEach((user) => {
+            if (user.id === loggedInUserId) {
+                setIsSignalSent(true);
+            }
+        });
+    }, [receivedSignal]);
+
+    const openPopup = () => {
+        setIsPopOpen(true);
+    };
+
+    const closePopup = () => {
+        setIsPopOpen(false);
+    };
+
+    const openDelSigPopup = () => {
+        setIsDelSigPopOpen(true);
+    };
+
+    const closeDelPopup = () => {
+        setIsDelSigPopOpen(false);
+    };
+
+    const handleSignalSent = (sentStatus) => {
+        setIsSignalSent(sentStatus); // 이 함수를 추가합니다.
+    };
 
     return (
         <>
@@ -245,8 +325,8 @@ const Profile = ({ userInfo, onClose }) => {
                         <UserLocationData>{userRegion}</UserLocationData>
                     </UserLocationBox>
                     <UserSignalsBox>
-                        <UserSignalsView>{userSignals}</UserSignalsView>
-                        <UserSignalsData>Signals</UserSignalsData>
+                        <UserSignalsView>Signals</UserSignalsView>
+                        <UserSignalsData>{userSignals}</UserSignalsData>
                     </UserSignalsBox>
                     <UserIntroductionBox>
                         <UserIntroductionView>
@@ -260,9 +340,32 @@ const Profile = ({ userInfo, onClose }) => {
                 <IconBox>
                     <CloseBtn onClick={onClose}>icon</CloseBtn>
                     <ChatBtn>Chat</ChatBtn>
-                    <SignalBtn>Signal</SignalBtn>
+                    {isSignalSent ? (
+                        <SignalCancelBtn onClick={openDelSigPopup} />
+                    ) : (
+                        <SignalBtn onClick={openPopup} />
+                    )}
                 </IconBox>
             </Container>
+            ㄴ
+            <SignalPopup isopen={isPopOpen}>
+                {isPopOpen && (
+                    <SendSignal
+                        closePopup={closePopup}
+                        otherId={userID}
+                        onSignalSent={handleSignalSent}
+                    />
+                )}
+            </SignalPopup>
+            <DeleteSignalPopup isdelopen={isDelSigPopOpen}>
+                {isDelSigPopOpen && (
+                    <DeleteSignal
+                        closeDelPopup={closeDelPopup}
+                        otherId={userID}
+                        signalSent={handleSignalSent}
+                    />
+                )}
+            </DeleteSignalPopup>
         </>
     );
 };

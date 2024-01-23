@@ -48,6 +48,7 @@ const ProfileContainer = styled.div`
     overflow: auto; // If content is too big, scroll
     top: 15%; // Adjust as needed
     left: 25%; // Adjust as needed
+    z-index: 98;
 `;
 
 /*
@@ -72,23 +73,7 @@ const ProfileContainer = styled.div`
 export default function MyProfile() {
     const location = useLocation();
     const navigate = useNavigate();
-    const userInfo = {
-        birth: "2023-01-22",
-        color: "white",
-        gender: "man",
-        id: "test1",
-        introduction: "hello",
-        name: "test1",
-        password:
-            "{bcrypt}$2a$10$9qLQ1N2HC8Yc6BTNTqgJz.pl2whLOr.poXprAmEpXyqYt.UsRsLJO",
-        photo: "null",
-        region: "seoul",
-        signals: 11,
-        x_coordinate: 751.136,
-        y_coordinate: 456.182,
-        z_coordinate: 392.797,
-    };
-    //const userInfo = { ...location.state.user };
+    const userInfo = { ...location.state.user };
     const user_x = userInfo.x_coordinate;
     const user_y = userInfo.y_coordinate;
     const user_z = userInfo.z_coordinate;
@@ -133,7 +118,7 @@ export default function MyProfile() {
                         width: "100%",
                         height: "100%",
                         position: "absolute",
-                        zIndex: "99",
+                        zIndex: "95",
                     }}
                     camera={{
                         position: [10000, 10000, 10000],

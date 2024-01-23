@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Profile from "../components/common/Profile";
 import styled from "styled-components";
 import Search from "../components/common/Search";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 const SearchContainer = styled.div`
     position: absolute;
@@ -39,7 +40,7 @@ const ProfileContainer = styled.div`
     position: absolute;
     width: 50%; // or any other size
     height: 65%; // or any other size
-    background-color: rgba(255, 255, 255, 0.4); // Semi-transparent white
+    background-color: rgba(255, 255, 255, 0.6); // Semi-transparent white
     border-radius: 20px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -47,24 +48,25 @@ const ProfileContainer = styled.div`
     overflow: auto; // If content is too big, scroll
     top: 15%; // Adjust as needed
     left: 25%; // Adjust as needed
+    z-index: 98;
 `;
 
 /*
 {
-        birth: null,
-        color: null,
-        gender: null,
-        id: "test8",
-        introduction: null,
-        name: null,
+        birth: "2023-01-01",
+        color: "yellow",
+        gender: "woman",
+        id: "test2",
+        introduction: "hi",
+        name: "Myname",
         password:
             "{bcrypt}$2a$10$9qLQ1N2HC8Yc6BTNTqgJz.pl2whLOr.poXprAmEpXyqYt.UsRsLJO",
-        photo: null,
-        region: null,
+        photo: :null,
+        region: "busan",
         signals: 11,
-        x_coordinate: 751.136,
-        y_coordinate: 456.182,
-        z_coordinate: 392.797,
+        x_coordinate: 451.136,
+        y_coordinate: 156.182,
+        z_coordinate: 292.797,
     };
 */
 
@@ -74,7 +76,7 @@ export default function OtherProfile() {
     const params = useParams();
 
     const userInfo = { ...location.state.user };
-    console.log("userinfo", userInfo);
+    //console.log("userinfo", userInfo);
     const user_x = userInfo.x_coordinate;
     const user_y = userInfo.y_coordinate;
     const user_z = userInfo.z_coordinate;
@@ -115,16 +117,30 @@ export default function OtherProfile() {
             </SearchContainer>
             <Container>
                 <Canvas
-                    style={{ width: "100%", height: "100%" }}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                        zIndex: "95",
+                    }}
                     camera={{
                         position: [10000, 10000, 10000],
                         rotation: [0.5, 0, 0],
-                        far: 1000,
+                        far: 20000,
                     }}
                 >
+                    <EffectComposer>
+                        <Bloom
+                            intensity={5}
+                            mipmapBlur={true}
+                            luminanceThreshold={0.1}
+                            luminanceSmoothing={4}
+                        />
+                    </EffectComposer>
+
                     <color attach="background" args={["#000"]} />
                     <axesHelper args={[1000, 1000, 1000]} />
-                    <ambientLight intensity={1} />
+                    <ambientLight intensity={4} />
                     <CameraControls position={position} target={target} />
                     {Galaxy()}
 
