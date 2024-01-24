@@ -122,13 +122,18 @@ const SearchContainer = styled.div`
     z-index: 100;
 `;
 
-const AllConnectionBtn = styled.button`
+const LogOut = styled.button`
     position: absolute;
     top: 10px;
     left: 10px;
     width: 50px;
     height: 50px;
     z-index: 100;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 40px;
+    font-family: "Skyer";
 `;
 
 const ProfileContainer = styled.div`
@@ -171,12 +176,25 @@ const SearchButton = styled(GrSearch)`
     font-size: 40px;
 `;
 
+const defaultPosition = {
+    x: 0,
+    y: 0,
+    z: 0,
+};
+
 const Home = () => {
     const [Id, setId] = useState("");
     const [Pw, setPw] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userInfo, setUserInfo] = useState(
+        JSON.parse(localStorage.getItem("loggedInUser")) || defaultPosition
+    );
+
+    let user_x = userInfo?.x_coordinate || defaultPosition.x;
+    let user_y = userInfo?.y_coordinate || defaultPosition.y;
+    let user_z = userInfo?.z_coordinate || defaultPosition.z;
 
     const handleID = (e) => {
         setId(e.target.value);
@@ -186,17 +204,46 @@ const Home = () => {
         setPw(e.target.value);
     };
 
+    // 로그인 성공 시 호출되는 함수
+    const handleLoginSuccess = (result) => {
+        console.log("로그인 성공 :", result);
+        localStorage.setItem("jwtToken", result.token.accessToken);
+        dispatch(loginSuccess(result));
+        localStorage.setItem("loggedInUser", JSON.stringify(result.user));
+
+        const loggedInUser =
+            JSON.parse(localStorage.getItem("loggedInUser")) || defaultPosition;
+        setUserInfo(loggedInUser); // userInfo 상태 업데이트
+
+        // 새로운 position과 target 설정
+        updatePositionAndTarget(
+            loggedInUser.x_coordinate,
+            loggedInUser.y_coordinate,
+            loggedInUser.z_coordinate
+        );
+
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+    };
+
+    // position과 target 상태를 업데이트하는 함수
+    const updatePositionAndTarget = (x, y, z) => {
+        setPosition({
+            x: x - 50,
+            y: y + 15,
+            z: z + 20,
+        });
+        setTarget({
+            x: x,
+            y: y,
+            z: z,
+        });
+    };
+
     const handleSubmit = async (e) => {
         const result = await logInFunction(Id, Pw);
-
         if (result && result !== "로그인 실패" && result !== "요청 실패") {
-            console.log("로그인 성공 :", result);
-            localStorage.setItem("jwtToken", result.token.accessToken);
-            dispatch(loginSuccess(result));
-            localStorage.setItem("loggedInUser", JSON.stringify(result.user));
-
-            setIsLoggedIn(true);
-            localStorage.setItem("isLoggedIn", "true");
+            handleLoginSuccess(result);
         } else {
             console.error(result);
         }
@@ -205,13 +252,6 @@ const Home = () => {
     const handleRegister = () => {
         navigate("/signup");
     };
-    //const userInfo = { ...location.state.user };
-    const [userInfo, setUserInfo] = useState(
-        JSON.parse(localStorage.getItem("loggedInUser"))
-    );
-    const user_x = userInfo.x_coordinate;
-    const user_y = userInfo.y_coordinate;
-    const user_z = userInfo.z_coordinate;
 
     //카메라의 position
     const [position, setPosition] = useState({
@@ -239,8 +279,13 @@ const Home = () => {
         setIsProfileOpen(false);
     };
 
-    const handleAllConnection = () => {
-        navigate("/allconnection");
+    const handleLogOut = () => {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("loggedInUser");
+        setIsLoggedIn(false);
+        setUserInfo(defaultPosition);
+        setPosition({ x: 10000, y: 10000, z: 10000 });
     };
 
     const STAR_MIN_SIZE = 5;
@@ -248,6 +293,16 @@ const Home = () => {
 
     const [stars, setStars] = useState([]);
     const [linePoints, setLinePoints] = useState([]);
+
+    useEffect(() => {
+        if (userInfo && userInfo !== defaultPosition) {
+            updatePositionAndTarget(
+                userInfo.x_coordinate,
+                userInfo.y_coordinate,
+                userInfo.z_coordinate
+            );
+        }
+    }, [userInfo]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -376,6 +431,7 @@ const Home = () => {
                 </Container>
             ) : (
                 <>
+                    <LogOut onClick={handleLogOut}>Log out</LogOut>
                     <SearchContainer>
                         <SearchInnerContainer>
                             <SearchBar

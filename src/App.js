@@ -14,6 +14,7 @@ import { Line, OrbitControls } from "@react-three/drei";
 import { doubleLineFunction } from "./services/DoubleLineService";
 import { allUserFunction } from "./services/AllUserService";
 import { getRandomInt } from "./utils/random";
+import Chat from "./components/Chat";
 
 function App() {
     const STAR_MIN_SIZE = 5;
@@ -84,8 +85,9 @@ function App() {
             <Routes>
                 <Route path="/" Component={Home} />
                 <Route path="/signup" Component={Register} />
+                <Route path="/chatting" Component={Chat} />
             </Routes>
-            {
+            {/*
                 <Canvas
                     style={{
                         width: "100vw",
@@ -126,8 +128,7 @@ function App() {
                             />
                         )}
                     </group>
-                </Canvas>
-            }
+                </Canvas>*/}
         </>
     );
 }

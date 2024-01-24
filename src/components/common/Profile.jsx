@@ -10,7 +10,6 @@ import ChatRoom from "../ChatRoom";
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    position: absolute; // 절대 위치 지정
     display: flex; // Flexbox를 사용해 내부 요소 정렬
     flex-wrap: wrap;
     justify-content: center; // 수평 중앙 정렬 (은하수를 중앙에 배치)
@@ -36,15 +35,15 @@ const PhotoNameContainer = styled.div`
 
 const UserPhotoView = styled.img`
     flex: 2;
-    width: 80%;
-    height: 60%;
+    width: 70%;
+    height: 75%;
     background: white;
-    margin-top: 10%;
+    margin-top: 5%;
 `;
 
 const UserNameView = styled.div`
     flex: 1;
-    margin-top: 10%;
+    margin-top: 5%;
     align-items: center;
     background: transparent;
     font-size: 50px;
@@ -55,8 +54,8 @@ const UserInfoSection = styled.div`
     height: 70%; // Adjust the height as needed
     background: transparent;
 
-    padding-top: 10%;
-    padding-bottom: 10%;
+    padding-top: 8%;
+    padding-bottom: 5%;
     box-sizing: border-box;
 
     display: flex;
@@ -70,7 +69,7 @@ const UserInfoSection = styled.div`
 
 const UserBirthBox = styled.div`
     width: 50%;
-    height: 20%;
+    height: 30%;
     background: transparent;
     font-size: 10px;
     display: flex;
@@ -94,7 +93,7 @@ const UserBirthData = styled.div`
 
 const UserGenderBox = styled.div`
     width: 50%;
-    height: 20%;
+    height: 30%;
     background: transparent;
     font-size: 10px;
     display: flex;
@@ -118,7 +117,7 @@ const UserGenderData = styled.div`
 
 const UserLocationBox = styled.div`
     width: 50%;
-    height: 20%;
+    height: 30%;
     background: transparent;
     font-size: 10px;
     display: flex;
@@ -142,7 +141,7 @@ const UserLocationData = styled.div`
 
 const UserSignalsBox = styled.div`
     width: 50%;
-    height: 20%;
+    height: 30%;
     background: transparent;
     font-size: 10px;
     display: flex;
@@ -166,7 +165,7 @@ const UserSignalsData = styled.div`
 
 const UserIntroductionBox = styled.div`
     width: 100%;
-    height: 20%;
+    height: 30%;
     background: transparent;
     font-size: 10px;
     display: flex;
@@ -185,12 +184,12 @@ const UserIntroductionData = styled.div`
     height: 50%;
     background: transparent;
     font-size: 50px;
-    margin-top: 10%;
+    margin-top: 5%;
 `;
 
 const IconBox = styled.div`
     width: 100%; // Adjust the width as needed
-    height: 30%; // Adjust the height as needed
+    height: 20%; // Adjust the height as needed
     background: transparent;
 
     box-sizing: border-box;
@@ -277,6 +276,7 @@ const Profile = ({ userInfo, onClose }) => {
     const [isChatOpen, setIsChatOpen] = useState(false);
 
     const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
+    const isOwnProfile = userID === loggedInUserId;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -365,11 +365,15 @@ const Profile = ({ userInfo, onClose }) => {
                 </UserInfoSection>
                 <IconBox>
                     <CloseBtn onClick={onClose}>icon</CloseBtn>
-                    <ChatBtn onClick={openChatRoom}>Chat</ChatBtn>
-                    {isSignalSent ? (
-                        <SignalCancelBtn onClick={openDelSigPopup} />
-                    ) : (
-                        <SignalBtn onClick={openPopup} />
+                    {!isOwnProfile && (
+                        <>
+                            <ChatBtn onClick={openChatRoom}>Chat</ChatBtn>
+                            {isSignalSent ? (
+                                <SignalCancelBtn onClick={openDelSigPopup} />
+                            ) : (
+                                <SignalBtn onClick={openPopup} />
+                            )}
+                        </>
                     )}
                 </IconBox>
             </Container>
@@ -393,13 +397,13 @@ const Profile = ({ userInfo, onClose }) => {
                 )}
             </DeleteSignalPopup>
             <ChatRoomPopup isopen={isChatOpen}>
-                {/*isChatOpen && (
+                {isChatOpen && (
                     <ChatRoom
                         closeChatRoom={closeChatRoom}
                         otherId={userID}
                         otherName={userName}
                     />
-                )*/}
+                )}
             </ChatRoomPopup>
         </>
     );

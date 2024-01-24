@@ -30,8 +30,7 @@ const SceneCanvas = memo(
                 </EffectComposer>
 
                 <color attach="background" args={["#000"]} />
-                <axesHelper args={[1000, 1000, 1000]} />
-                <ambientLight intensity={4} />
+                <ambientLight intensity={5} />
                 {Galaxy()}
 
                 <group>
