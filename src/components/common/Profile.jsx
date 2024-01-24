@@ -5,6 +5,7 @@ import { HiMiniSignal, HiMiniSignalSlash } from "react-icons/hi2";
 import SendSignal from "../SendSignal";
 import DeleteSignal from "../DeleteSignal";
 import { receivedSignalFunction } from "../../services/ReceivedSignalService";
+import ChatRoom from "../ChatRoom";
 
 const Container = styled.div`
     width: 100%;
@@ -245,6 +246,20 @@ const DeleteSignalPopup = styled.div`
     z-index: 120;
 `;
 
+const ChatRoomPopup = styled.div`
+    position: absolute;
+    width: 50%; // or any other size
+    height: 70%; // or any other size
+    background-color: rgba(255, 255, 255); // Semi-transparent white
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: ${(props) => (props.isopen ? "block" : "none")};
+    overflow: auto; // If content is too big, scroll
+    top: 15%; // Adjust as needed
+    left: 25%; // Adjust as needed
+    z-index: 120;
+`;
+
 const Profile = ({ userInfo, onClose }) => {
     const userName = userInfo.name || "NAME";
     const userBirth = userInfo.birth.slice(0, 10) || "BIRTHDAY";
@@ -259,6 +274,8 @@ const Profile = ({ userInfo, onClose }) => {
     const [isSignalSent, setIsSignalSent] = useState(false);
     const [isDelSigPopOpen, setIsDelSigPopOpen] = useState(false);
     const [receivedSignal, setReceivedSignal] = useState([]);
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
     const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
 
     useEffect(() => {
@@ -304,6 +321,15 @@ const Profile = ({ userInfo, onClose }) => {
         setIsSignalSent(sentStatus); // 이 함수를 추가합니다.
     };
 
+    //채팅
+    const openChatRoom = () => {
+        setIsChatOpen(true);
+    };
+
+    const closeChatRoom = () => {
+        setIsChatOpen(false);
+    };
+
     return (
         <>
             <Container>
@@ -339,7 +365,7 @@ const Profile = ({ userInfo, onClose }) => {
                 </UserInfoSection>
                 <IconBox>
                     <CloseBtn onClick={onClose}>icon</CloseBtn>
-                    <ChatBtn>Chat</ChatBtn>
+                    <ChatBtn onClick={openChatRoom}>Chat</ChatBtn>
                     {isSignalSent ? (
                         <SignalCancelBtn onClick={openDelSigPopup} />
                     ) : (
@@ -347,7 +373,7 @@ const Profile = ({ userInfo, onClose }) => {
                     )}
                 </IconBox>
             </Container>
-            ㄴ
+
             <SignalPopup isopen={isPopOpen}>
                 {isPopOpen && (
                     <SendSignal
@@ -366,6 +392,15 @@ const Profile = ({ userInfo, onClose }) => {
                     />
                 )}
             </DeleteSignalPopup>
+            <ChatRoomPopup isopen={isChatOpen}>
+                {/*isChatOpen && (
+                    <ChatRoom
+                        closeChatRoom={closeChatRoom}
+                        otherId={userID}
+                        otherName={userName}
+                    />
+                )*/}
+            </ChatRoomPopup>
         </>
     );
 };

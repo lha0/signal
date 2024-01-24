@@ -20,7 +20,6 @@ import { Line, OrbitControls } from "@react-three/drei";
 import { doubleLineFunction } from "./services/DoubleLineService";
 import { allUserFunction } from "./services/AllUserService";
 import { getRandomInt } from "./utils/random";
-import LogInAndMove from "./pages/LogInAndMove";
 
 function App() {
     const STAR_MIN_SIZE = 5;
