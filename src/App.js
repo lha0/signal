@@ -2,15 +2,9 @@ import "./App.css";
 import { Route, Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import styled from "styled-components";
-import Login from "./pages/Login";
 import Register from "./pages/Register";
-import View from "./components/View";
 import { Canvas } from "@react-three/fiber";
-import { genBackgroundStars } from "./components/genBackgroundStars";
 import Galaxy from "./components/Galaxy";
-import MyProfile from "./pages/MyProfile";
-import AllConnection from "./pages/AllConnection";
-import OtherProfile from "./pages/OtherProfile";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import Star from "./components/Star";
 import { useEffect, useState } from "react";
@@ -90,9 +84,6 @@ function App() {
             <Routes>
                 <Route path="/" Component={Home} />
                 <Route path="/signup" Component={Register} />
-                <Route path="/myprofile" Component={MyProfile} />
-                <Route path="/otherprofile/:id" Component={OtherProfile} />
-                <Route path="/allconnection" Component={AllConnection} />
             </Routes>
             {
                 <Canvas

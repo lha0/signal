@@ -196,6 +196,7 @@ const Home = () => {
             localStorage.setItem("loggedInUser", JSON.stringify(result.user));
 
             setIsLoggedIn(true);
+            localStorage.setItem("isLoggedIn", "true");
         } else {
             console.error(result);
         }
@@ -204,8 +205,6 @@ const Home = () => {
     const handleRegister = () => {
         navigate("/signup");
     };
-
-    const location = useLocation();
     //const userInfo = { ...location.state.user };
     const [userInfo, setUserInfo] = useState(
         JSON.parse(localStorage.getItem("loggedInUser"))
@@ -309,6 +308,11 @@ const Home = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+        setIsLoggedIn(loggedIn);
+    }, []);
+
     const [searchId, setSearchId] = useState("");
 
     const handleSearchId = (e) => {
@@ -372,7 +376,6 @@ const Home = () => {
                 </Container>
             ) : (
                 <>
-                    <AllConnectionBtn onClick={handleAllConnection} />
                     <SearchContainer>
                         <SearchInnerContainer>
                             <SearchBar

@@ -4,7 +4,7 @@ import { logInFunction } from "../services/LogInService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/actions/sessionActions";
-import Galaxy from "../components/Galaxy";
+import Galaxy from "./Galaxy";
 import { Canvas } from "@react-three/fiber";
 
 const Container = styled.div`
