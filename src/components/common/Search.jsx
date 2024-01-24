@@ -4,7 +4,7 @@ import { searchFunction } from "../../services/SearchService";
 import styled from "styled-components";
 import { GrSearch } from "react-icons/gr";
 
-const Container = styled.div`
+const SearchInnerContainer = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
@@ -37,7 +37,7 @@ const Search = () => {
         setSearchId(e.target.value);
     };
 
-    const handleSubmit = async () => {
+    const handleSearchSubmit = async () => {
         const result = await searchFunction(searchId);
 
         if (result && result !== "검색 실패" && result !== "요청 실패") {
@@ -51,14 +51,14 @@ const Search = () => {
 
     return (
         <>
-            <Container>
+            <SearchInnerContainer>
                 <SearchBar
                     type="text"
                     placeholder="아이디를 입력하세요"
                     onChange={handleSearchId}
                 />
-                <SearchButton onClick={handleSubmit}>검색</SearchButton>
-            </Container>
+                <SearchButton onClick={handleSearchSubmit}>검색</SearchButton>
+            </SearchInnerContainer>
         </>
     );
 };

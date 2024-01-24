@@ -18,6 +18,7 @@ import Star from "../components/Star";
 import { getRandomInt } from "../utils/random";
 import { Line, OrbitControls } from "@react-three/drei";
 import SceneCanvas from "../components/SceneCanvas";
+import { searchFunction } from "../services/SearchService";
 
 const Container = styled.div`
     width: 100vw;
@@ -267,6 +268,7 @@ const Home = () => {
                             position={userPoint}
                             size={size}
                             isRotate={false}
+                            onClick={openProfile}
                         />
                     );
                 });
@@ -279,14 +281,30 @@ const Home = () => {
         fetchData();
     }, []);
 
+    const [searchId, setSearchId] = useState("");
+
+    const handleSearchId = (e) => {
+        setSearchId(e.target.value);
+    };
+
+    const handleSearchSubmit = async () => {
+        const result = await searchFunction(searchId);
+
+        if (result && result !== "검색 실패" && result !== "요청 실패") {
+            console.log("검색 성공 :", result);
+        } else {
+            console.error(result);
+        }
+        console.log(result);
+        navigate(`/otherprofile/${searchId}`, { state: { user: result } });
+    };
+
     return (
         <>
             <Canvas
                 style={{
                     width: "100vw",
                     height: "100vh",
-                    position: "absolute",
-                    zIndex: "-1",
                 }}
                 camera={{
                     position: [10000, 10000, 10000],
@@ -314,11 +332,15 @@ const Home = () => {
                         <Line
                             points={linePoints}
                             color={"#fff"}
-                            lineWidth={3}
+                            lineWidth={5}
                             transparent
                             opacity={0.2}
                         />
                     )}
+                    <Star
+                        locate={[user_z, user_x, user_y]}
+                        onClick={openProfile}
+                    />
                 </group>
 
                 {isLoggedIn ? (
@@ -367,7 +389,7 @@ const Home = () => {
                     </ToRegisterBtn>
                 </Container>
             ) : (
-                <Container>
+                <>
                     <AllConnectionBtn onClick={handleAllConnection} />
                     <SearchContainer>
                         <Search />
@@ -380,7 +402,7 @@ const Home = () => {
                             />
                         )}
                     </ProfileContainer>
-                </Container>
+                </>
             )}
         </>
     );
