@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IoMdCloseCircle, IoIosSend } from "react-icons/io";
 import { HiMiniSignal, HiMiniSignalSlash } from "react-icons/hi2";
+import { HiMiniCloudArrowDown, HiMiniCloudArrowUp } from "react-icons/hi2";
 import SendSignal from "../SendSignal";
 import DeleteSignal from "../DeleteSignal";
 import { receivedSignalFunction } from "../../services/ReceivedSignalService";
 import ChatRoom from "../ChatRoom";
+import SendSignalDialog from "../SendSignalDialog";
+import ReceivedSignalDialog from "../ReceivedSignalDialog";
 
 const Container = styled.div`
     width: 100%;
@@ -259,6 +262,46 @@ const ChatRoomPopup = styled.div`
     z-index: 120;
 `;
 
+const ReceivedSignalBtn = styled(HiMiniCloudArrowDown)`
+    font-size: 70px;
+    color: lightgreen;
+    margin-left: 50px;
+    margin-right: 50px;
+`;
+
+const ReceivedSignalPopup = styled.div`
+    position: absolute;
+    width: 50%; // or any other size
+    height: 70%; // or any other size
+    background-color: rgba(255, 255, 255); // Semi-transparent white
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: ${(props) => (props.isopen ? "block" : "none")};
+    overflow: auto; // If content is too big, scroll
+    top: 15%; // Adjust as needed
+    left: 25%; // Adjust as needed
+    z-index: 120;
+`;
+
+const SendSignalBtn = styled(HiMiniCloudArrowUp)`
+    font-size: 70px;
+    color: skyblue;
+`;
+
+const SendSignalPopup = styled.div`
+    position: absolute;
+    width: 50%; // or any other size
+    height: 70%; // or any other size
+    background-color: rgba(255, 255, 255); // Semi-transparent white
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: ${(props) => (props.isopen ? "block" : "none")};
+    overflow: auto; // If content is too big, scroll
+    top: 15%; // Adjust as needed
+    left: 25%; // Adjust as needed
+    z-index: 120;
+`;
+
 const Profile = ({ userInfo, onClose }) => {
     const userName = userInfo.name || "NAME";
     const userBirth = userInfo.birth.slice(0, 10) || "BIRTHDAY";
@@ -274,6 +317,8 @@ const Profile = ({ userInfo, onClose }) => {
     const [isDelSigPopOpen, setIsDelSigPopOpen] = useState(false);
     const [receivedSignal, setReceivedSignal] = useState([]);
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const [isReceivedSignalOpen, setIsReceivedSignalOpen] = useState(false);
+    const [isSendSignalOpen, setIsSendSignalOpen] = useState(false);
 
     const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
     const isOwnProfile = userID === loggedInUserId;
@@ -330,6 +375,24 @@ const Profile = ({ userInfo, onClose }) => {
         setIsChatOpen(false);
     };
 
+    //받은 신호 목록
+    const openReceivedSignal = () => {
+        setIsReceivedSignalOpen(true);
+    };
+
+    const closeReceivedSignal = () => {
+        setIsReceivedSignalOpen(false);
+    };
+
+    //보낸 신호 목록
+    const openSendSignal = () => {
+        setIsSendSignalOpen(true);
+    };
+
+    const closeSendSignal = () => {
+        setIsSendSignalOpen(false);
+    };
+
     return (
         <>
             <Container>
@@ -365,6 +428,12 @@ const Profile = ({ userInfo, onClose }) => {
                 </UserInfoSection>
                 <IconBox>
                     <CloseBtn onClick={onClose}>icon</CloseBtn>
+                    {isOwnProfile && (
+                        <>
+                            <ReceivedSignalBtn onClick={openReceivedSignal} />
+                            <SendSignalBtn onClick={openSendSignal} />
+                        </>
+                    )}
                     {!isOwnProfile && (
                         <>
                             <ChatBtn onClick={openChatRoom}>Chat</ChatBtn>
@@ -405,6 +474,18 @@ const Profile = ({ userInfo, onClose }) => {
                     />
                 )}
             </ChatRoomPopup>
+            <ReceivedSignalPopup isopen={isReceivedSignalOpen}>
+                {isReceivedSignalOpen && (
+                    <ReceivedSignalDialog
+                        closeReceivedSignal={closeReceivedSignal}
+                    />
+                )}
+            </ReceivedSignalPopup>
+            <SendSignalPopup isopen={isSendSignalOpen}>
+                {isSendSignalOpen && (
+                    <SendSignalDialog closeSendSignal={closeSendSignal} />
+                )}
+            </SendSignalPopup>
         </>
     );
 };

@@ -175,7 +175,7 @@ const ChatRoom = ({ closeChatRoom, otherId, otherName }) => {
 
     const webSocketLogin = useCallback(() => {
         ws.current = new WebSocket(
-            `ws://192.249.29.43:8080/socket/chatt/test1/test2`
+            `ws://192.249.29.43:8080/socket/chatt/${loggedInUserId}/${otherId}`
         );
 
         ws.current.onmessage = (message) => {

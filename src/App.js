@@ -87,7 +87,7 @@ function App() {
                 <Route path="/signup" Component={Register} />
                 <Route path="/chatting" Component={Chat} />
             </Routes>
-            {/*
+            {
                 <Canvas
                     style={{
                         width: "100vw",
@@ -128,7 +128,8 @@ function App() {
                             />
                         )}
                     </group>
-                </Canvas>*/}
+                </Canvas>
+            }
         </>
     );
 }

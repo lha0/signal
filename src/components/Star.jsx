@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { getRandomInt } from "../utils/random";
 import * as THREE from "three";
+import { useControls } from "leva";
 
 export default function Star({ position, size, isRotate, onClick }) {
     const COLOR = ["#88beff", "white", "#f9d397", "#fd6b6b", "#ffffac"];
