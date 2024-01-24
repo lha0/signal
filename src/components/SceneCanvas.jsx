@@ -7,50 +7,16 @@ import Galaxy from "./Galaxy";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 const SceneCanvas = ({ isLoggedIn, position, target, stars, linePoints }) => {
-    const memoizedStars = useMemo(() => {
-        console.log("stars", stars);
-        return stars.map((star) => (
-            <Star
-                key={star.id}
-                position={star.position}
-                size={star.size}
-                isRotate={star.isRotate}
-            />
-        ));
-    }, [stars]);
-
-    const memoizedLinePoints = useMemo(() => {
-        console.log("linePoints", linePoints);
-        return (
-            linePoints.length > 0 && (
-                <Line
-                    points={linePoints}
-                    color={"#fff"}
-                    lineWidth={3}
-                    transparent
-                    opacity={0.2}
-                />
-            )
-        );
-    }, [linePoints]);
-
-    const controls = isLoggedIn ? (
-        <CameraControls position={position} target={target} />
-    ) : (
-        <OrbitControls />
-    );
-
     return (
         <Canvas
             style={{
                 width: "100vw",
                 height: "100vh",
-                position: "absolute",
-                zIndex: "-1",
             }}
             camera={{
-                position: [0, 10000, 0],
-                far: 20000,
+                position: [10000, 10000, 10000],
+                rotation: [0.5, 0, 0],
+                far: 23000,
             }}
         >
             <EffectComposer>
@@ -61,23 +27,38 @@ const SceneCanvas = ({ isLoggedIn, position, target, stars, linePoints }) => {
                     luminanceSmoothing={4}
                 />
             </EffectComposer>
-            <ambientLight color={"#fff"} intensity={4} />
+
             <color attach="background" args={["#000"]} />
-            {controls}
+            <axesHelper args={[1000, 1000, 1000]} />
+            <ambientLight intensity={4} />
             {Galaxy()}
+
             <group>
                 {stars}
                 {linePoints.length > 0 && (
                     <Line
                         points={linePoints}
                         color={"#fff"}
-                        lineWidth={3}
+                        lineWidth={5}
                         transparent
                         opacity={0.2}
                     />
                 )}
             </group>
-            {/* ... */}
+
+            {isLoggedIn ? (
+                <>
+                    {" "}
+                    <CameraControls position={position} target={target} />
+                    {console.log(position)}
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <OrbitControls />
+                    {console.log(position)}
+                </>
+            )}
         </Canvas>
     );
 };

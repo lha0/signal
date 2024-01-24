@@ -340,70 +340,13 @@ const Home = () => {
 
     return (
         <>
-            <Canvas
-                style={{
-                    width: "100vw",
-                    height: "100vh",
-                }}
-                camera={{
-                    position: [10000, 10000, 10000],
-                    rotation: [0.5, 0, 0],
-                    far: 23000,
-                }}
-            >
-                <EffectComposer>
-                    <Bloom
-                        intensity={5}
-                        mipmapBlur={true}
-                        luminanceThreshold={0.1}
-                        luminanceSmoothing={4}
-                    />
-                </EffectComposer>
-
-                <color attach="background" args={["#000"]} />
-                <axesHelper args={[1000, 1000, 1000]} />
-                <ambientLight intensity={4} />
-                {Galaxy()}
-
-                <group>
-                    {stars}
-                    {linePoints.length > 0 && (
-                        <Line
-                            points={linePoints}
-                            color={"#fff"}
-                            lineWidth={5}
-                            transparent
-                            opacity={0.2}
-                        />
-                    )}
-                    <Star
-                        locate={[user_z, user_x, user_y]}
-                        onClick={openProfile}
-                    />
-                </group>
-
-                {isLoggedIn ? (
-                    <>
-                        {" "}
-                        <CameraControls position={position} target={target} />
-                        {console.log(position)}
-                    </>
-                ) : (
-                    <>
-                        {" "}
-                        <OrbitControls />
-                        {console.log(position)}
-                    </>
-                )}
-            </Canvas>
-
-            {/*<SceneCanvas
+            <SceneCanvas
                 isLoggedIn={isLoggedIn}
                 position={position}
                 target={target}
                 stars={stars}
                 linePoints={linePoints}
-                />*/}
+            />
 
             {!isLoggedIn ? (
                 <Container>
