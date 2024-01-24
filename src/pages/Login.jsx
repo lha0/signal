@@ -134,25 +134,29 @@ export default function Login() {
 
     return (
         <>
-            <Container>
-                <Title>LOG IN</Title>
-                <IDTitle>ID</IDTitle>
-                <ID
-                    type="text"
-                    value={Id}
-                    placeholder="ID"
-                    onInput={handleID}
-                />
-                <PWTitle>PW</PWTitle>
-                <PW
-                    type="text"
-                    value={Pw}
-                    placeholder="PW"
-                    onInput={handlePW}
-                />
-                <LogInButton onClick={handleSubmit}>Log In</LogInButton>
-                <ToRegisterBtn onClick={handleRegister}>Register</ToRegisterBtn>
-            </Container>
+            {
+                <Container>
+                    <Title>LOG IN</Title>
+                    <IDTitle>ID</IDTitle>
+                    <ID
+                        type="text"
+                        value={Id}
+                        placeholder="ID"
+                        onInput={handleID}
+                    />
+                    <PWTitle>PW</PWTitle>
+                    <PW
+                        type="text"
+                        value={Pw}
+                        placeholder="PW"
+                        onInput={handlePW}
+                    />
+                    <LogInButton onClick={handleSubmit}>Log In</LogInButton>
+                    <ToRegisterBtn onClick={handleRegister}>
+                        Register
+                    </ToRegisterBtn>
+                </Container>
+            }
         </>
     );
 }

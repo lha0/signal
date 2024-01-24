@@ -16,10 +16,11 @@ import Star from "./components/Star";
 import { useEffect, useState } from "react";
 
 import * as THREE from "three";
-import { Line } from "@react-three/drei";
+import { Line, OrbitControls } from "@react-three/drei";
 import { doubleLineFunction } from "./services/DoubleLineService";
 import { allUserFunction } from "./services/AllUserService";
 import { getRandomInt } from "./utils/random";
+import LogInAndMove from "./pages/LogInAndMove";
 
 function App() {
     const STAR_MIN_SIZE = 5;
@@ -89,43 +90,54 @@ function App() {
         <>
             <Routes>
                 <Route path="/" Component={Home} />
-                <Route path="/signin" Component={Login} />
                 <Route path="/signup" Component={Register} />
                 <Route path="/myprofile" Component={MyProfile} />
                 <Route path="/otherprofile/:id" Component={OtherProfile} />
                 <Route path="/allconnection" Component={AllConnection} />
             </Routes>
-            <Canvas
-                style={{ height: "100vh" }}
-                camera={{
-                    position: [0, 10000, 0],
-                    far: 200000,
-                }}
-            >
-                <EffectComposer>
-                    <Bloom
-                        intensity={5}
-                        mipmapBlur={true}
-                        luminanceThreshold={0.1}
-                        luminanceSmoothing={4}
-                    />
-                </EffectComposer>
-                <color attach="background" args={["#000"]} />
-                <ambientLight color={"#fff"} intensity={4} />
-                {Galaxy()}
-                <group>
-                    {stars}
-                    {linePoints.length > 0 && (
-                        <Line
-                            points={linePoints}
-                            color={"#fff"}
-                            lineWidth={3}
-                            transparent
-                            opacity={0.2}
+            {
+                <Canvas
+                    style={{
+                        width: "100vw",
+                        height: "100vh",
+                        position: "absolute",
+                        zIndex: "-3",
+                    }}
+                    camera={{
+                        position: [10000, 10000, 10000],
+                        rotation: [0.5, 0, 0],
+                        far: 20000,
+                    }}
+                >
+                    <EffectComposer>
+                        <Bloom
+                            intensity={5}
+                            mipmapBlur={true}
+                            luminanceThreshold={0.1}
+                            luminanceSmoothing={4}
                         />
-                    )}
-                </group>
-            </Canvas>
+                    </EffectComposer>
+
+                    <color attach="background" args={["#000"]} />
+                    <axesHelper args={[1000, 1000, 1000]} />
+                    <ambientLight intensity={4} />
+                    <OrbitControls />
+                    {Galaxy()}
+
+                    <group>
+                        {stars}
+                        {linePoints.length > 0 && (
+                            <Line
+                                points={linePoints}
+                                color={"#fff"}
+                                lineWidth={3}
+                                transparent
+                                opacity={0.2}
+                            />
+                        )}
+                    </group>
+                </Canvas>
+            }
         </>
     );
 }

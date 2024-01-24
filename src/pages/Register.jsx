@@ -288,7 +288,7 @@ const Register = () => {
 
         if (result === "회원가입 성공") {
             console.log(result);
-            navigate("/signin");
+            navigate("/");
             // 회원가입 성공 후 필요한 로직 구현 (예: 로그인 페이지로 이동)
         } else {
             console.error(result);

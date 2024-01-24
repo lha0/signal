@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CameraControls } from "../components/CameraControls";
 import { Stars } from "../components/Stars";
 import Galaxy from "../components/Galaxy";
@@ -71,13 +71,34 @@ const ProfileContainer = styled.div`
     };
 */
 
-export default function MyProfile() {
+export default function MyProfile({ setCameraPosition, setCameraTarget }) {
     const location = useLocation();
     const navigate = useNavigate();
     const userInfo = { ...location.state.user };
     const user_x = userInfo.x_coordinate;
     const user_y = userInfo.y_coordinate;
     const user_z = userInfo.z_coordinate;
+
+    const [position, setPosition] = useState({ x: 0, y: 0, z: 0 });
+    const [target, setTarget] = useState({ x: 0, y: 0, z: 0 });
+
+    useEffect(() => {
+        setPosition({
+            x: userInfo.x_coordinate - 20,
+            y: userInfo.y_coordinate + 5,
+            z: userInfo.z_coordinate + 10,
+        });
+        setTarget({
+            x: userInfo.x_coordinate,
+            y: userInfo.y_coordinate,
+            z: userInfo.z_coordinate,
+        });
+    }, [userInfo]);
+
+    useEffect(() => {
+        setCameraPosition(position);
+        setCameraTarget(target);
+    }, [position, target]);
 
     //profile 모달창
     const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -93,20 +114,6 @@ export default function MyProfile() {
     const handleAllConnection = () => {
         navigate("/allconnection");
     };
-
-    //카메라의 position
-    const [position, setPosition] = useState({
-        x: user_x - 20,
-        y: user_y + 5,
-        z: user_z + 10,
-    });
-
-    //카메라가 바라볼 target 위치
-    const [target, setTarget] = useState({
-        x: user_x,
-        y: user_y,
-        z: user_z,
-    });
     return (
         <>
             <AllConnectionBtn onClick={handleAllConnection} />

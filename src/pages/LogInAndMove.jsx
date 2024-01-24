@@ -17,7 +17,6 @@ import { allUserFunction } from "../services/AllUserService";
 import Star from "../components/Star";
 import { getRandomInt } from "../utils/random";
 import { Line, OrbitControls } from "@react-three/drei";
-import SceneCanvas from "../components/SceneCanvas";
 
 const Container = styled.div`
     width: 100vw;
@@ -141,10 +140,10 @@ const ProfileContainer = styled.div`
     overflow: auto; // If content is too big, scroll
     top: 15%; // Adjust as needed
     left: 25%; // Adjust as needed
-    z-index: 104;
+    z-index: 100;
 `;
 
-const Home = () => {
+const LogInAndMove = () => {
     const [Id, setId] = useState("");
     const [Pw, setPw] = useState();
     const dispatch = useDispatch();
@@ -187,9 +186,9 @@ const Home = () => {
 
     //카메라의 position
     const [position, setPosition] = useState({
-        x: user_x - 50,
-        y: user_y + 15,
-        z: user_z + 20,
+        x: user_x - 20,
+        y: user_y + 5,
+        z: user_z + 10,
     });
 
     //카메라가 바라볼 target 위치
@@ -203,7 +202,6 @@ const Home = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const openProfile = () => {
-        console.log("clicked");
         setIsProfileOpen(true);
     };
 
@@ -291,7 +289,7 @@ const Home = () => {
                 camera={{
                     position: [10000, 10000, 10000],
                     rotation: [0.5, 0, 0],
-                    far: 23000,
+                    far: 20000,
                 }}
             >
                 <EffectComposer>
@@ -336,14 +334,6 @@ const Home = () => {
                 )}
             </Canvas>
 
-            {/*<SceneCanvas
-                isLoggedIn={isLoggedIn}
-                position={position}
-                target={target}
-                stars={stars}
-                linePoints={linePoints}
-                />*/}
-
             {!isLoggedIn ? (
                 <Container>
                     <Title>Signal</Title>
@@ -386,4 +376,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default LogInAndMove;
