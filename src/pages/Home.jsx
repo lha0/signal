@@ -2,11 +2,12 @@ import { Canvas } from "@react-three/fiber";
 
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Html } from "@react-three/drei";
 
 const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
-    position: absolute; // 절대 위치 지정
+    width: 100%;
+    height: 100%;
+    position: relative; // 절대 위치 지정
     top: 0; // 상단에서 0px
     left: 0; // 왼쪽에서 0px
     display: flex; // Flexbox를 사용해 내부 요소 정렬

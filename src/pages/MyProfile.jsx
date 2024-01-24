@@ -8,6 +8,7 @@ import Profile from "../components/common/Profile";
 import styled from "styled-components";
 import Search from "../components/common/Search";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import AllConnection from "./AllConnection";
 
 const SearchContainer = styled.div`
     position: absolute;

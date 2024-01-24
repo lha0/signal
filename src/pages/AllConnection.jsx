@@ -3,12 +3,13 @@ import { doubleLineFunction } from "../services/DoubleLineService";
 import styled from "styled-components";
 import { Canvas } from "@react-three/fiber";
 import { CameraControls } from "../components/CameraControls";
-import { Line, OrbitControls } from "@react-three/drei";
+import { FlyControls, Line, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import Galaxy from "../components/Galaxy";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { getRandomInt } from "../utils/random";
 import Star from "../components/Star";
+import { allUserFunction } from "../services/AllUserService";
 
 const Container = styled.div`
     width: 100vw;
@@ -22,83 +23,75 @@ const Container = styled.div`
 const AllConnection = () => {
     const STAR_MIN_SIZE = 5;
     const STAR_MAX_SIZE = 15;
-    const [points, setPoints] = useState([
-        {
-            user1xcoordinate: 1,
-            user1ycordinate: 1,
-            user1zcoordinate: 1,
-            user2xcoordinate: 1000,
-            user2ycoordinate: 1000,
-            user2zcoordinate: 1000,
-        },
-        {
-            user1xcoordinate: 500,
-            user1ycordinate: 1000,
-            user1zcoordinate: 1000,
-            user2xcoordinate: 2000,
-            user2ycoordinate: 1000,
-            user2zcoordinate: 100,
-        },
-        {
-            user1xcoordinate: 2000,
-            user1ycordinate: 1000,
-            user1zcoordinate: 100,
-            user2xcoordinate: 2000,
-            user2ycoordinate: 500,
-            user2zcoordinate: 2300,
-        },
-    ]);
 
-    const pointsArray = [];
+    const [stars, setStars] = useState([]);
+    const [linePoints, setLinePoints] = useState([]);
 
-    points.forEach((point) => {
-        const start = new THREE.Vector3(
-            point.user1xcoordinate,
-            point.user1ycordinate,
-            point.user1zcoordinate
-        );
-        const end = new THREE.Vector3(
-            point.user2xcoordinate,
-            point.user2ycoordinate,
-            point.user2zcoordinate
-        );
-        pointsArray.push(start, end);
-        console.log("pointsArray", pointsArray);
-    });
-
-    const stars = [];
-
-    for (let star = 0; star < pointsArray.length; star++) {
-        const size = getRandomInt(STAR_MIN_SIZE, STAR_MAX_SIZE);
-        const pos = pointsArray[star];
-
-        stars.push(<Star position={pos} size={size} isRotate={false} />);
-    }
-    /* useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             const result = await doubleLineFunction();
             if (result && result !== "요청 실패") {
                 console.log("성공 :", result);
-                setPoints(result);
+                const newPointsArray = result
+                    .map((point) => [
+                        new THREE.Vector3(
+                            point.user1XCoordinate,
+                            point.user1YCoordinate,
+                            point.user1ZCoordinate
+                        ),
+                        new THREE.Vector3(
+                            point.user2XCoordinate,
+                            point.user2YCoordinate,
+                            point.user2ZCoordinate
+                        ),
+                    ])
+                    .flat();
+                setLinePoints(newPointsArray);
             } else {
                 console.error(result);
             }
         };
 
         fetchData();
-    }, []);*/
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await allUserFunction();
+            if (result && result !== "요청 실패") {
+                console.log("성공 :", result);
+                const newStars = result.map((user) => {
+                    const userPoint = new THREE.Vector3(
+                        user.x_coordinate,
+                        user.y_coordinate,
+                        user.z_coordinate
+                    );
+                    const size = getRandomInt(STAR_MIN_SIZE, STAR_MAX_SIZE);
+                    return (
+                        <Star
+                            key={user.id}
+                            position={userPoint}
+                            size={size}
+                            isRotate={false}
+                        />
+                    );
+                });
+                setStars(newStars);
+            } else {
+                console.error(result);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <>
-            <div>
-                <h1>AllConnection</h1>
-            </div>
             <Container>
                 <Canvas
                     style={{
                         height: "100vh",
                         position: "absolute",
-                        zIndex: 109,
                     }}
                     camera={{
                         position: [0, 10000, 0],
@@ -115,20 +108,22 @@ const AllConnection = () => {
                     </EffectComposer>
                     <ambientLight color={"#fff"} intensity={4} />
                     <color attach="background" args={["#000"]} />
-                    <axesHelper args={[1000, 1000, 1000]} />
-                    <OrbitControls />
                     {
-                        //Galaxy()
+                        //<axesHelper args={[1000, 1000, 1000]} />
                     }
-                    <group position={[0, 0, 0]}>
+                    <FlyControls />
+                    {Galaxy()}
+                    <group>
                         {stars}
-                        <Line
-                            points={pointsArray}
-                            color={"#fff"}
-                            lineWidth={10}
-                            transparent
-                            opacity={0.3}
-                        />
+                        {linePoints.length > 0 && (
+                            <Line
+                                points={linePoints}
+                                color={"#fff"}
+                                lineWidth={3}
+                                transparent
+                                opacity={0.2}
+                            />
+                        )}
                     </group>
                 </Canvas>
             </Container>
