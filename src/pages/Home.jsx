@@ -19,6 +19,7 @@ import { getRandomInt } from "../utils/random";
 import { Line, OrbitControls } from "@react-three/drei";
 import SceneCanvas from "../components/SceneCanvas";
 import { searchFunction } from "../services/SearchService";
+import { GrSearch } from "react-icons/gr";
 
 const Container = styled.div`
     width: 100vw;
@@ -145,6 +146,31 @@ const ProfileContainer = styled.div`
     z-index: 104;
 `;
 
+const SearchInnerContainer = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    margin-top: 10px;
+`;
+
+const SearchBar = styled.input`
+    width: 70%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    font-family: "Skyer";
+    font-size: 20px;
+    color: white;
+    padding-left: 14px;
+`;
+const SearchButton = styled(GrSearch)`
+    width: 20%;
+    height: 100%;
+    color: white;
+    font-size: 40px;
+`;
+
 const Home = () => {
     const [Id, setId] = useState("");
     const [Pw, setPw] = useState();
@@ -181,7 +207,9 @@ const Home = () => {
 
     const location = useLocation();
     //const userInfo = { ...location.state.user };
-    const userInfo = JSON.parse(localStorage.getItem("loggedInUser"));
+    const [userInfo, setUserInfo] = useState(
+        JSON.parse(localStorage.getItem("loggedInUser"))
+    );
     const user_x = userInfo.x_coordinate;
     const user_y = userInfo.y_coordinate;
     const user_z = userInfo.z_coordinate;
@@ -291,12 +319,23 @@ const Home = () => {
         const result = await searchFunction(searchId);
 
         if (result && result !== "검색 실패" && result !== "요청 실패") {
-            console.log("검색 성공 :", result);
+            const newUserPosition = {
+                x: result.x_coordinate - 50, // 예를 들어 사용자 위치에서 조금 떨어진 곳으로 설정
+                y: result.y_coordinate + 15,
+                z: result.z_coordinate + 20,
+            };
+            setPosition(newUserPosition);
+            setTarget({
+                x: result.x_coordinate,
+                y: result.y_coordinate,
+                z: result.z_coordinate,
+            });
+
+            // 검색된 사용자의 정보로 userInfo 상태를 업데이트합니다.
+            setUserInfo(result);
         } else {
             console.error(result);
         }
-        console.log(result);
-        navigate(`/otherprofile/${searchId}`, { state: { user: result } });
     };
 
     return (
@@ -392,7 +431,16 @@ const Home = () => {
                 <>
                     <AllConnectionBtn onClick={handleAllConnection} />
                     <SearchContainer>
-                        <Search />
+                        <SearchInnerContainer>
+                            <SearchBar
+                                type="text"
+                                placeholder="아이디를 입력하세요"
+                                onChange={handleSearchId}
+                            />
+                            <SearchButton onClick={handleSearchSubmit}>
+                                검색
+                            </SearchButton>
+                        </SearchInnerContainer>
                     </SearchContainer>
                     <ProfileContainer isopen={isProfileOpen}>
                         {isProfileOpen && (
