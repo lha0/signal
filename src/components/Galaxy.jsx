@@ -36,7 +36,14 @@ export default function Galaxy() {
                 ARM_X_DIST
             );
 
-            stars.push(<Star position={pos} size={size} isRotate={true} />);
+            stars.push(
+                <Star
+                    position={pos}
+                    size={size}
+                    isRotate={true}
+                    onClick={() => {}}
+                />
+            );
         }
     }
 
