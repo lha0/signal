@@ -20,6 +20,7 @@ import { Line, OrbitControls } from "@react-three/drei";
 import SceneCanvas from "../components/SceneCanvas";
 import { searchFunction } from "../services/SearchService";
 import { GrSearch } from "react-icons/gr";
+import Register from "./Register";
 
 const Container = styled.div`
     width: 100vw;
@@ -304,6 +305,8 @@ const Home = () => {
         }
     }, [userInfo]);
 
+    const [signalSent, setSignalSent] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await doubleLineFunction();
@@ -330,7 +333,7 @@ const Home = () => {
         };
 
         fetchData();
-    }, []);
+    }, [signalSent]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -449,6 +452,7 @@ const Home = () => {
                             <Profile
                                 userInfo={userInfo}
                                 onClose={closeProfile}
+                                setSignalSent={setSignalSent}
                             />
                         )}
                     </ProfileContainer>

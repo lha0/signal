@@ -5,6 +5,8 @@ import { chatFunction } from "../services/ChatService";
 const Container = styled.div`
     width: 100%;
     height: 100%;
+    background-color: #000;
+    opacity: 0.9;
     position: absolute; // 절대 위치 지정
     display: flex; // Flexbox를 사용해 내부 요소 정렬
     flex-direction: column;
@@ -23,6 +25,7 @@ const BoxTitle = styled.div`
         margin-left: 20px;
         margin-bottom: 20px;
         font-family: "Skyer";
+        color: white;
     }
 `;
 
@@ -31,18 +34,20 @@ const NoBtn = styled.button`
     border: 0;
     border-radius: 5px;
     font-family: "Skyer";
-    color: black;
-    font-size: 20px;
-    margin-right: 20px;
+    color: white;
+    font-size: 30px;
+    margin-right: 5px;
+    background-color: #000;
 `;
 
 const Chatt = styled.div`
     width: 100%;
     margin: 0 auto;
+    font-family: "Skyer";
 
     #talk {
         width: 100%;
-        height: 400px;
+        height: 580px;
         overflow-y: auto;
         border-radius: 18px;
         position: relative;
@@ -56,30 +61,25 @@ const Chatt = styled.div`
         }
 
         div {
-            width: 60%;
+            width: 50%;
             display: block;
             padding: 10px;
             border-radius: 10px;
             box-sizing: border-box;
+            margin: 4px 0 0 0;
 
             &.me {
-                background-color: #ffc;
-                margin: 0px 0px 20px 40%;
+                background-color: #404551;
+                color: white;
+                margin: 0px 5px 20px 47%;
             }
 
             &.other {
-                margin: 20px 0px 2px 0;
+                background-color: #fff;
+                color: black;
+                margin: 20px 0px 2px 3%;
             }
         }
-    }
-
-    #name {
-        display: block;
-        border: 1px solid #dcdcdc;
-        background-color: #ededed;
-        padding: 5px 2px;
-        margin-top: 20px;
-        margin-left: 5px;
     }
 `;
 
@@ -89,6 +89,8 @@ const SendZone = styled.div`
     }
     margin-top: 10px;
     margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
     display: flex;
 
     #msg {
@@ -100,6 +102,7 @@ const SendZone = styled.div`
         background-color: #fff;
         box-sizing: border-box;
         margin-left: 5px;
+        border-radius: 15px 0 0 15px;
     }
     #btnSend {
         width: 15%;
@@ -108,6 +111,7 @@ const SendZone = styled.div`
         margin-right: 5px;
         font-family: "Skyer";
         font-size: 15px;
+        border-radius: 0 15px 15px 0;
     }
 `;
 
@@ -138,21 +142,27 @@ const Textarea = styled.textarea`
     font-size: inherit;
 `;
 
-const ChatRoom = ({ closeChatRoom, otherId, otherName }) => {
+const ChatRoom = ({ closeChatRoom, otherId, otherName, ws }) => {
     const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
 
     const [msg, setMsg] = useState("");
-    const [name, setName] = useState("");
+    const [name, setName] = useState(loggedInUserId);
     const [chatt, setChatt] = useState([]);
     const [chkLog, setChkLog] = useState(false);
     const [socketData, setSocketData] = useState();
 
-    const ws = useRef(null);
+    const uniqueChatt = chatt.filter(
+        (item, index, self) =>
+            index === self.findIndex((t) => t.date === item.date)
+    );
 
-    const msgBox = chatt.map((item, idx) => (
-        <div key={idx} className={item.name === name ? "me" : "other"}>
+    const msgBox = uniqueChatt.map((item, idx) => (
+        <div
+            key={idx}
+            className={item.loggedInUserId === name ? "me" : "other"}
+        >
             <span>
-                <b>{item.name}</b>
+                <b>{item.loggedInUserId}</b>
             </span>{" "}
             [ {item.date} ] <br />
             <span>{item.msg}</span>
@@ -162,7 +172,6 @@ const ChatRoom = ({ closeChatRoom, otherId, otherName }) => {
     useEffect(() => {
         if (socketData !== undefined) {
             const tempData = chatt.concat(socketData);
-            console.log(tempData);
             setChatt(tempData);
         }
     }, [socketData]);
@@ -173,30 +182,19 @@ const ChatRoom = ({ closeChatRoom, otherId, otherName }) => {
         setMsg(event.target.value);
     };
 
-    const webSocketLogin = useCallback(() => {
-        ws.current = new WebSocket(
-            `ws://192.249.29.43:8080/socket/chatt/${loggedInUserId}/${otherId}`
-        );
-
-        ws.current.onmessage = (message) => {
-            const dataSet = JSON.parse(message.data);
-            setSocketData(dataSet);
-        };
-    });
+    ws.current.onmessage = (message) => {
+        const dataSet = JSON.parse(message.data);
+        setSocketData(dataSet);
+        setChatt((prevChatt) => [...prevChatt, dataSet]);
+    };
 
     const send = useCallback(() => {
         if (!chkLog) {
-            if (name === "") {
-                alert("이름을 입력하세요.");
-                document.getElementById("name").focus();
-                return;
-            }
-            webSocketLogin();
             setChkLog(true);
         }
         if (msg !== "") {
             const data = {
-                name,
+                loggedInUserId,
                 msg,
                 date: new Date().toLocaleString(),
             }; //전송 데이터(JSON)
@@ -237,15 +235,7 @@ const ChatRoom = ({ closeChatRoom, otherId, otherName }) => {
                         <div className="talk-shadow"></div>
                         {msgBox}
                     </div>
-                    <Input
-                        as="input"
-                        disabled={chkLog}
-                        placeholder="이름을 입력하세요."
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                    />
+
                     <SendZone>
                         <Textarea
                             as="textarea"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { IoMdCloseCircle, IoIosSend } from "react-icons/io";
 import { HiMiniSignal, HiMiniSignalSlash } from "react-icons/hi2";
@@ -251,13 +251,13 @@ const DeleteSignalPopup = styled.div`
 const ChatRoomPopup = styled.div`
     position: absolute;
     width: 50%; // or any other size
-    height: 70%; // or any other size
+    height: 90%; // or any other size
     background-color: rgba(255, 255, 255); // Semi-transparent white
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: ${(props) => (props.isopen ? "block" : "none")};
     overflow: auto; // If content is too big, scroll
-    top: 15%; // Adjust as needed
+    top: 5%; // Adjust as needed
     left: 25%; // Adjust as needed
     z-index: 120;
 `;
@@ -302,7 +302,7 @@ const SendSignalPopup = styled.div`
     z-index: 120;
 `;
 
-const Profile = ({ userInfo, onClose }) => {
+const Profile = ({ userInfo, onClose, setSignalSent }) => {
     const userName = userInfo.name || "NAME";
     const userBirth = userInfo.birth.slice(0, 10) || "BIRTHDAY";
     const userGender = userInfo.gender || "GENDER";
@@ -366,8 +366,15 @@ const Profile = ({ userInfo, onClose }) => {
         setIsSignalSent(sentStatus); // 이 함수를 추가합니다.
     };
 
+    const ws = useRef(null);
+    const webSocketLogin = useCallback(() => {
+        ws.current = new WebSocket(
+            `ws://192.249.29.112:8080/socket/chatt/${loggedInUserId}/${userID}`
+        );
+    });
     //채팅
     const openChatRoom = () => {
+        webSocketLogin();
         setIsChatOpen(true);
     };
 
@@ -453,6 +460,7 @@ const Profile = ({ userInfo, onClose }) => {
                         closePopup={closePopup}
                         otherId={userID}
                         onSignalSent={handleSignalSent}
+                        onHomeSignalSent={setSignalSent}
                     />
                 )}
             </SignalPopup>
@@ -462,6 +470,7 @@ const Profile = ({ userInfo, onClose }) => {
                         closeDelPopup={closeDelPopup}
                         otherId={userID}
                         signalSent={handleSignalSent}
+                        onHomeSignalSent={setSignalSent}
                     />
                 )}
             </DeleteSignalPopup>
@@ -471,6 +480,7 @@ const Profile = ({ userInfo, onClose }) => {
                         closeChatRoom={closeChatRoom}
                         otherId={userID}
                         otherName={userName}
+                        ws={ws}
                     />
                 )}
             </ChatRoomPopup>

@@ -1,26 +1,47 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { chatFunction } from "../services/ChatService";
 
-const ChatWrap = styled.div`
-    width: 500px;
-    background-color: #ededed;
-    margin: 50px auto;
-    padding: 20px 10px;
-    border-radius: 20px;
-    box-shadow:
-        41px 41px 82px #c9c9c9,
-        -41px -41px 82px #ffffff;
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    opacity: 0.9;
+    position: absolute; // 절대 위치 지정
+    display: flex; // Flexbox를 사용해 내부 요소 정렬
+    flex-direction: column;
+    justify-content: center; // 수평 중앙 정렬 (은하수를 중앙에 배치)
+    align-items: center; // 수직 중앙 정렬 (은하수를 중앙에 배치)
+`;
+
+const BoxTitle = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    #title {
+        font-size: 30px;
+        text-align: center;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        font-family: "Skyer";
+        color: white;
+    }
+`;
+
+const NoBtn = styled.button`
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 5px;
+    font-family: "Skyer";
+    color: black;
+    font-size: 20px;
+    margin-right: 20px;
 `;
 
 const Chatt = styled.div`
     width: 100%;
     margin: 0 auto;
-
-    #title {
-        font-size: 30pt;
-        text-align: center;
-        margin-bottom: 20px;
-    }
 
     #talk {
         width: 100%;
@@ -61,7 +82,19 @@ const Chatt = styled.div`
         background-color: #ededed;
         padding: 5px 2px;
         margin-top: 20px;
+        margin-left: 5px;
     }
+`;
+
+const ChatWrap = styled.div`
+    width: 500px;
+    background-color: #ededed;
+    margin: 50px auto;
+    padding: 20px 10px;
+    border-radius: 20px;
+    box-shadow:
+        41px 41px 82px #c9c9c9,
+        -41px -41px 82px #ffffff;
 `;
 
 const SendZone = styled.div`
@@ -69,21 +102,26 @@ const SendZone = styled.div`
         vertical-align: top;
     }
     margin-top: 10px;
+    margin-bottom: 5px;
     display: flex;
 
     #msg {
-        width: 90%;
+        width: 85%;
         height: 70px; // Changed from SASS variable $sendZone-H
         display: block;
         resize: none;
         border: 1px solid #dcdcdc;
         background-color: #fff;
         box-sizing: border-box;
+        margin-left: 5px;
     }
     #btnSend {
-        width: 10%;
+        width: 15%;
         height: 70px; // Changed from SASS variable $sendZone-H
         border: 1px solid #dcdcdc;
+        margin-right: 5px;
+        font-family: "Skyer";
+        font-size: 15px;
     }
 `;
 
@@ -114,7 +152,9 @@ const Textarea = styled.textarea`
     font-size: inherit;
 `;
 
-const Chat = () => {
+const ChatRoom = ({ closeChatRoom, otherId, otherName }) => {
+    const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
+
     const [msg, setMsg] = useState("");
     const [name, setName] = useState("");
     const [chatt, setChatt] = useState([]);
@@ -149,7 +189,7 @@ const Chat = () => {
 
     const webSocketLogin = useCallback(() => {
         ws.current = new WebSocket(
-            `ws://192.249.29.43:8080/socket/chatt/test1/test2`
+            `ws://192.249.29.112:8080/socket/chatt/test50/test51`
         );
 
         ws.current.onmessage = (message) => {
@@ -200,45 +240,52 @@ const Chat = () => {
     //webSocket
 
     return (
-        <ChatWrap>
-            <Chatt>
-                <h1 id="title">Chatting</h1>
-                <div id="talk">
-                    <div className="talk-shadow"></div>
-                    {msgBox}
-                </div>
-                <Input
-                    as="input"
-                    disabled={chkLog}
-                    placeholder="이름을 입력하세요."
-                    type="text"
-                    id="name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                />
-                <SendZone>
-                    <Textarea
-                        as="textarea"
-                        id="msg"
-                        value={msg}
-                        onChange={onText}
-                        onKeyDown={(ev) => {
-                            if (ev.keyCode === 13) {
-                                send();
-                            }
-                        }}
-                    />
-                    <Input
-                        as="input"
-                        type="button"
-                        value="전송"
-                        id="btnSend"
-                        onClick={send}
-                    />
-                </SendZone>
-            </Chatt>
-        </ChatWrap>
+        <>
+            <Container>
+                <ChatWrap>
+                    <Chatt>
+                        <BoxTitle>
+                            <h1 id="title">Chatting</h1>
+                            <NoBtn onClick={closeChatRoom}>X</NoBtn>
+                        </BoxTitle>
+                        <div id="talk">
+                            <div className="talk-shadow"></div>
+                            {msgBox}
+                        </div>
+                        <Input
+                            as="input"
+                            disabled={chkLog}
+                            placeholder="이름을 입력하세요."
+                            type="text"
+                            id="name"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                        <SendZone>
+                            <Textarea
+                                as="textarea"
+                                id="msg"
+                                value={msg}
+                                onChange={onText}
+                                onKeyDown={(ev) => {
+                                    if (ev.keyCode === 13) {
+                                        send();
+                                    }
+                                }}
+                            />
+                            <Input
+                                as="input"
+                                type="button"
+                                value="send"
+                                id="btnSend"
+                                onClick={send}
+                            />
+                        </SendZone>
+                    </Chatt>
+                </ChatWrap>
+            </Container>
+        </>
     );
 };
 
-export default Chat;
+export default ChatRoom;

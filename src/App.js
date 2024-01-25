@@ -87,49 +87,48 @@ function App() {
                 <Route path="/signup" Component={Register} />
                 <Route path="/chatting" Component={Chat} />
             </Routes>
-            {
-                <Canvas
-                    style={{
-                        width: "100vw",
-                        height: "100vh",
-                        position: "absolute",
-                        zIndex: "-3",
-                    }}
-                    camera={{
-                        position: [10000, 10000, 10000],
-                        rotation: [0.5, 0, 0],
-                        far: 20000,
-                    }}
-                >
-                    <EffectComposer>
-                        <Bloom
-                            intensity={5}
-                            mipmapBlur={true}
-                            luminanceThreshold={0.1}
-                            luminanceSmoothing={4}
+
+            <Canvas
+                style={{
+                    width: "100vw",
+                    height: "100vh",
+                    position: "absolute",
+                    zIndex: "-3",
+                }}
+                camera={{
+                    position: [10000, 10000, 10000],
+                    rotation: [0.5, 0, 0],
+                    far: 20000,
+                }}
+            >
+                <EffectComposer>
+                    <Bloom
+                        intensity={5}
+                        mipmapBlur={true}
+                        luminanceThreshold={0.1}
+                        luminanceSmoothing={4}
+                    />
+                </EffectComposer>
+
+                <color attach="background" args={["#000"]} />
+                <axesHelper args={[1000, 1000, 1000]} />
+                <ambientLight intensity={4} />
+                <OrbitControls />
+                {Galaxy()}
+
+                <group>
+                    {stars}
+                    {linePoints.length > 0 && (
+                        <Line
+                            points={linePoints}
+                            color={"#fff"}
+                            lineWidth={3}
+                            transparent
+                            opacity={0.2}
                         />
-                    </EffectComposer>
-
-                    <color attach="background" args={["#000"]} />
-                    <axesHelper args={[1000, 1000, 1000]} />
-                    <ambientLight intensity={4} />
-                    <OrbitControls />
-                    {Galaxy()}
-
-                    <group>
-                        {stars}
-                        {linePoints.length > 0 && (
-                            <Line
-                                points={linePoints}
-                                color={"#fff"}
-                                lineWidth={3}
-                                transparent
-                                opacity={0.2}
-                            />
-                        )}
-                    </group>
-                </Canvas>
-            }
+                    )}
+                </group>
+            </Canvas>
         </>
     );
 }

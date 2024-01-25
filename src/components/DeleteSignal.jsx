@@ -47,7 +47,12 @@ const NoBtn = styled.button`
     font-size: 20px;
 `;
 
-const DeleteSignal = ({ closeDelPopup, otherId, signalSent }) => {
+const DeleteSignal = ({
+    closeDelPopup,
+    otherId,
+    signalSent,
+    onHomeSignalSent,
+}) => {
     const [message, setMessage] = useState("");
 
     const loggedInUserId = JSON.parse(localStorage.getItem("loggedInUser")).id;
@@ -62,15 +67,18 @@ const DeleteSignal = ({ closeDelPopup, otherId, signalSent }) => {
                 if (result == "delete signal success") {
                     console.log("요청 보내기 성공");
                     signalSent(false);
+                    onHomeSignalSent(false);
                     setMessage("Successfully delete a SIGNAL");
                 } else {
                     console.log("요청 보내기 실패");
                     signalSent(true);
+                    onHomeSignalSent(true);
                     setMessage("Failed to delete a SIGNAL");
                 }
             } catch {
                 console.log("요청 보내기 실패");
                 signalSent(true);
+                onHomeSignalSent(true);
                 setMessage("Failed to delete a SIGNAL");
             }
         };

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { registerService } from "../services/RegisterService";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import SceneCanvas from "../components/SceneCanvas";
 
 const Container = styled.div`
     width: 100vw;
@@ -187,7 +188,7 @@ const Photo = styled.input`
     border-radius: 10px;
     color: black; // 글씨 색상
     background-color: white;
-    font-size: 40px;
+    font-size: 25px;
     font-family: "Skyer";
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
 `;
@@ -265,7 +266,21 @@ const Register = () => {
     };
 
     const handlePhotoChange = (event) => {
-        setPhoto(event.target.value);
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                // 파일 내용을 읽은 후 URL을 추출하고 photo 상태를 업데이트합니다.
+                const content = reader.result;
+                const urlMatch = content.match(/URL=(.*)/); // URL= 다음에 오는 문자열을 찾습니다.
+                if (urlMatch && urlMatch[1]) {
+                    setPhoto(urlMatch[1].trim()); // 공백을 제거하고 상태를 업데이트합니다.
+                } else {
+                    console.error("URL not found in the file");
+                }
+            };
+            reader.readAsText(file); // 파일을 텍스트로 읽습니다.
+        }
     };
 
     const handleIntroChange = (event) => {
@@ -346,12 +361,8 @@ const Register = () => {
                 />
 
                 <PhotoTitle>PHOTO</PhotoTitle>
-                <Photo
-                    type="text"
-                    value={photo}
-                    placeholder="PHOTO"
-                    onChange={handlePhotoChange}
-                />
+                <Photo type="file" onChange={handlePhotoChange} />
+                {console.log("photo is ", photo)}
 
                 <IntroTitle>INTRO</IntroTitle>
                 <Intro
