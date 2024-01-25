@@ -96,7 +96,7 @@
 
     > **실시간 채팅 시작**
 
-![채팅.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/6035a56e-64d5-4402-a9f4-f975c87c2bb2/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%B5%E1%86%BC.gif)
+![채팅 (2) (1)](https://github.com/lha0/signal/assets/78598160/6b56302c-f083-4e8d-8f44-dfa480cb6531)
 
 채팅 전송 버튼을 누르면 다른 사용자와 실시간 채팅을 이용할 수 있습니다.
 
