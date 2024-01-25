@@ -15,7 +15,7 @@ export default function Star({ position, size, isRotate, onClick }) {
         if (isRotate) {
             const pos = meshRef.current.position.applyAxisAngle(
                 Y_AXIS,
-                delta / 25
+                delta / 20
             );
             const dist = state.camera.position.distanceTo(
                 meshRef.current.position

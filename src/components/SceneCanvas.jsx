@@ -25,25 +25,27 @@ const SceneCanvas = memo(
                         intensity={5}
                         mipmapBlur={true}
                         luminanceThreshold={0.1}
-                        luminanceSmoothing={4}
+                        luminanceSmoothing={3}
                     />
                 </EffectComposer>
 
                 <color attach="background" args={["#000"]} />
-                <ambientLight intensity={5} />
+                <ambientLight intensity={4} />
                 {Galaxy()}
 
                 <group>
                     {stars}
-                    {linePoints.length > 0 && (
-                        <Line
-                            points={linePoints}
-                            color={"#fff"}
-                            lineWidth={5}
-                            transparent
-                            opacity={0.2}
-                        />
-                    )}
+                    {linePoints.length > 0 &&
+                        linePoints.map((pointsPair, index) => (
+                            <Line
+                                key={index}
+                                points={pointsPair}
+                                color={"#fff"}
+                                lineWidth={5}
+                                transparent
+                                opacity={0.2}
+                            />
+                        ))}
                 </group>
 
                 {isLoggedIn ? (

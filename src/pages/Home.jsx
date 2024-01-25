@@ -38,7 +38,7 @@ const Container = styled.div`
 const Title = styled.h1`
     position: absolute; // 절대 위치 지정
     top: 80px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 120px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -46,7 +46,7 @@ const Title = styled.h1`
 const IDTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 350px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -55,7 +55,7 @@ const IDTitle = styled.h2`
 const ID = styled.input`
     position: absolute; // 절대 위치 지정
     top: 500px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -71,7 +71,7 @@ const ID = styled.input`
 const PWTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 550px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -79,7 +79,7 @@ const PWTitle = styled.h2`
 const PW = styled.input`
     position: absolute; // 절대 위치 지정
     top: 700px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -94,7 +94,7 @@ const PW = styled.input`
 const LogInButton = styled.button`
     position: absolute; // 절대 위치 지정
     top: 900px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     border: none;
     color: white; // 글씨 색상
     background-color: transparent; // 배경색 투명
@@ -105,7 +105,7 @@ const LogInButton = styled.button`
 const ToRegisterBtn = styled.button`
     position: absolute; // 절대 위치 지정
     top: 1000px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     border: none;
     color: white; // 글씨 색상
     background-color: transparent; // 배경색 투명
@@ -312,21 +312,20 @@ const Home = () => {
             const result = await doubleLineFunction();
             if (result && result !== "요청 실패") {
                 console.log("성공 :", result);
-                const newPointsArray = result
-                    .map((point) => [
-                        new THREE.Vector3(
-                            point.user1XCoordinate,
-                            point.user1YCoordinate,
-                            point.user1ZCoordinate
-                        ),
-                        new THREE.Vector3(
-                            point.user2XCoordinate,
-                            point.user2YCoordinate,
-                            point.user2ZCoordinate
-                        ),
-                    ])
-                    .flat();
+                const newPointsArray = result.map((point) => [
+                    new THREE.Vector3(
+                        point.user1XCoordinate,
+                        point.user1YCoordinate,
+                        point.user1ZCoordinate
+                    ),
+                    new THREE.Vector3(
+                        point.user2XCoordinate,
+                        point.user2YCoordinate,
+                        point.user2ZCoordinate
+                    ),
+                ]);
                 setLinePoints(newPointsArray);
+                console.log("lines", linePoints);
             } else {
                 console.error(result);
             }

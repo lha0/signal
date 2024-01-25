@@ -135,7 +135,7 @@ const Input = styled.input`
 const Textarea = styled.textarea`
     resize: none;
     margin: 0;
-    padding: 0;
+    padding: 10;
     border: none;
     outline: none;
     font-family: inherit;

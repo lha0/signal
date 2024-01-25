@@ -21,7 +21,7 @@ const Container = styled.div`
 const Title = styled.h1`
     position: absolute; // 절대 위치 지정
     top: 80px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 120px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -29,7 +29,7 @@ const Title = styled.h1`
 const IDTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 320px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -38,7 +38,7 @@ const IDTitle = styled.h2`
 const ID = styled.input`
     position: absolute; // 절대 위치 지정
     top: 450px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -53,7 +53,7 @@ const ID = styled.input`
 const PWTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 520px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -61,7 +61,7 @@ const PWTitle = styled.h2`
 const PW = styled.input`
     position: absolute; // 절대 위치 지정
     top: 650px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -76,7 +76,7 @@ const PW = styled.input`
 const NameTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 720px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -85,7 +85,7 @@ const NameTitle = styled.h2`
 const Name = styled.input`
     position: absolute; // 절대 위치 지정
     top: 850px; // 상단에서 20px
-    left: 50px; // 왼쪽에서 20px
+    left: 100px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -100,7 +100,7 @@ const Name = styled.input`
 const GenderTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 320px; // 상단에서 20px
-    left: 500px; // 왼쪽에서 20px
+    left: 550px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -109,7 +109,7 @@ const GenderTitle = styled.h2`
 const Gender = styled.select`
     position: absolute; // 절대 위치 지정
     top: 450px; // 상단에서 20px
-    left: 500px; // 왼쪽에서 20px
+    left: 550px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -124,7 +124,7 @@ const Gender = styled.select`
 const BirthTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 520px; // 상단에서 20px
-    left: 500px; // 왼쪽에서 20px
+    left: 550px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -133,7 +133,7 @@ const BirthTitle = styled.h2`
 const Birth = styled.input`
     position: absolute; // 절대 위치 지정
     top: 650px; // 상단에서 20px
-    left: 500px; // 왼쪽에서 20px
+    left: 550px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -148,7 +148,7 @@ const Birth = styled.input`
 const RegionTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 720px; // 상단에서 20px
-    left: 500px; // 왼쪽에서 20px
+    left: 550px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -157,7 +157,7 @@ const RegionTitle = styled.h2`
 const Region = styled.input`
     position: absolute; // 절대 위치 지정
     top: 850px; // 상단에서 20px
-    left: 500px; // 왼쪽에서 20px
+    left: 550px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -172,7 +172,7 @@ const Region = styled.input`
 const PhotoTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 320px; // 상단에서 20px
-    left: 950px; // 왼쪽에서 20px
+    left: 1000px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -181,9 +181,10 @@ const PhotoTitle = styled.h2`
 const Photo = styled.input`
     position: absolute; // 절대 위치 지정
     top: 450px; // 상단에서 20px
-    left: 950px; // 왼쪽에서 20px
+    left: 1000px; // 왼쪽에서 20px
     width: 350px;
-    height: 60px;
+    height: 47px;
+    padding-top: 13px;
     padding-left: 10px;
     border-radius: 10px;
     color: black; // 글씨 색상
@@ -196,7 +197,7 @@ const Photo = styled.input`
 const IntroTitle = styled.h2`
     position: absolute; // 절대 위치 지정
     top: 520px; // 상단에서 20px
-    left: 950px; // 왼쪽에서 20px
+    left: 1000px; // 왼쪽에서 20px
     color: white; // 글씨 색상
     font-size: 60px;
     z-index: 100; // 캔버스보다 상위 레이어에 위치하도록 z-index 설정
@@ -205,7 +206,7 @@ const IntroTitle = styled.h2`
 const Intro = styled.input`
     position: absolute; // 절대 위치 지정
     top: 650px; // 상단에서 20px
-    left: 950px; // 왼쪽에서 20px
+    left: 1000px; // 왼쪽에서 20px
     width: 350px;
     height: 60px;
     padding-left: 10px;
@@ -220,7 +221,7 @@ const Intro = styled.input`
 const ToRegisterBtn = styled.button`
     position: absolute; // 절대 위치 지정
     top: 800px; // 상단에서 20px
-    left: 970px; // 왼쪽에서 20px
+    left: 1020px; // 왼쪽에서 20px
     border: 2px solid white;
     padding: 20px;
     color: white; // 글씨 색상

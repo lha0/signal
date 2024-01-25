@@ -13,29 +13,16 @@ function spiral(x, y, z, offset, SPIRAL, ARM_X_DIST) {
 
 export default function Galaxy() {
     const stars = [];
-    const {
-        SPIRAL,
-        ARM_X_MEAN,
-        ARM_X_DIST,
-        ARM_Z_MEAN,
-        ARM_Z_DIST,
-        GALAXY_THICKNESS,
-        NUM_STARS,
-        STAR_MIN_SIZE,
-        STAR_MAX_SIZE,
-        ARMS,
-    } = useControls({
-        SPIRAL: 3.5,
-        ARM_X_MEAN: 1500,
-        ARM_X_DIST: 3000,
-        ARM_Z_MEAN: 900,
-        ARM_Z_DIST: 1000,
-        GALAXY_THICKNESS: 300,
-        NUM_STARS: 3000,
-        STAR_MIN_SIZE: 5,
-        STAR_MAX_SIZE: 15,
-        ARMS: 2,
-    });
+    const SPIRAL = 3.5;
+    const ARM_X_MEAN = 2000;
+    const ARM_X_DIST = 3000;
+    const ARM_Z_MEAN = 1500;
+    const ARM_Z_DIST = 1000;
+    const GALAXY_THICKNESS = 500;
+    const NUM_STARS = 4000;
+    const STAR_MIN_SIZE = 5;
+    const STAR_MAX_SIZE = 15;
+    const ARMS = 2;
 
     for (let arm = 0; arm < ARMS; arm++) {
         for (let star = 0; star < NUM_STARS / ARMS; star++) {

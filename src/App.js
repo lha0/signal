@@ -98,7 +98,7 @@ function App() {
                 camera={{
                     position: [10000, 10000, 10000],
                     rotation: [0.5, 0, 0],
-                    far: 20000,
+                    far: 18000,
                 }}
             >
                 <EffectComposer>
@@ -106,12 +106,11 @@ function App() {
                         intensity={5}
                         mipmapBlur={true}
                         luminanceThreshold={0.1}
-                        luminanceSmoothing={4}
+                        luminanceSmoothing={3}
                     />
                 </EffectComposer>
 
                 <color attach="background" args={["#000"]} />
-                <axesHelper args={[1000, 1000, 1000]} />
                 <ambientLight intensity={4} />
                 <OrbitControls />
                 {Galaxy()}
@@ -122,7 +121,7 @@ function App() {
                         <Line
                             points={linePoints}
                             color={"#fff"}
-                            lineWidth={3}
+                            lineWidth={5}
                             transparent
                             opacity={0.2}
                         />
